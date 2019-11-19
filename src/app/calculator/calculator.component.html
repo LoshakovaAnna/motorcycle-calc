@@ -1,6 +1,27 @@
 
 <div class="container mt-1 pt-1">
     <form [formGroup]="dataForm">
+      <div>
+        <label class="col-md-4" for="motocycle-select">Motocycle model</label>
+        <select class="custom-select col-md-12"
+                id="motocycle-select"
+                formControlName="motocycle"
+                (change) = "onChangeSelectMoto()" >
+                <option  *ngFor="let moto of motocycles " [ngValue]="moto">
+                  {{moto.name}}
+                </option>
+        </select>
+
+        <div class="form-group d-flex flex-row justify-content-between p-2">
+            <div class="col-md-6 pt-2">
+                <img *ngIf="this.dataForm.value.motocycle['urlImg']" alt="moto image" class="img-fluid" [src]="this.dataForm.value.motocycle['urlImg']">
+            </div>
+            <div class="col-md-6">
+                <p *ngIf="this.dataForm.value.motocycle['heightSaddle']" class="p-4">Height saddle: {{this.dataForm.value.motocycle.heightSaddle}} mm</p>
+            </div>
+        </div>
+      </div>
+
       <div class="form-group d-flex flex-row justify-content-between">
         <label class="col-md-4" for="height-rider">Rider height</label>
         <input formControlName="heightRider" id="height-rider" class="form-control"
