@@ -9,12 +9,12 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 export class CalculatorComponent {
   dataForm = new FormGroup({
-    heighRider: new FormControl('', Validators.required),
+    heightRider: new FormControl('', Validators.required),
     legLength: new FormControl('', Validators.required),
   });
 
-  onChangeInputHeighRider() {
-    console.log(this.dataForm.controls.heighRider.value);
+  onChangeInputHeightRider() {
+    console.log(this.dataForm.controls.heightRider.value);
   }
 
   onChangeInputLegLength() {
