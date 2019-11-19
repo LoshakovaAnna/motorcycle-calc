@@ -1,15 +1,14 @@
 
 <div class="container mt-1 pt-1">
     <form [formGroup]="dataForm">
-        <div class="form-group d-flex flex-row justify-content-between" >
-            <label class="col-md-4" for="heigh-rider">Rider high</label>
-            <input formControlName="heighRider" id="heigh-rider" class="form-control"
-                    type="number" (change)="onChangeInputHeighRider()">
-        </div>
-        <div class="form-group d-flex flex-row justify-content-between" >
-            <label class="col-md-4" for="heigh-rider">Leg length</label>
-            <input formControlName="legLength" id="leg-length" class="form-control"
-                    type="number" (change)="onChangeInputLegLength()">
-        </div>
+      <div class="form-group d-flex flex-row justify-content-between">
+        <label class="col-md-4" for="height-rider">Rider height</label>
+        <input formControlName="heightRider" id="height-rider" class="form-control"
+               type="number" (change)="onChangeInputHeightRider()">
+
+        <label class="col-md-4" for="leg-length">Leg length</label>
+        <input formControlName="legLength" id="leg-length" class="form-control"
+               type="number" (change)="onChangeInputLegLength()">
+      </div>
     </form>
 </div>

@@ -1,27 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup,  Validators, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
-  styleUrls: ['./calculator.component.scss']
+  styleUrls: ['./calculator.component.scss'],
 })
-export class CalculatorComponent implements OnInit {
 
-  dataForm =  new FormGroup({
-    heighRider : new FormControl('', Validators.required),
-    legLength:  new FormControl('', Validators.required)
+export class CalculatorComponent {
+  dataForm = new FormGroup({
+    heightRider: new FormControl('', Validators.required),
+    legLength: new FormControl('', Validators.required),
   });
 
-  constructor() { }
-
-  onChangeInputHeighRider() {
-    console.log(this.dataForm.controls.heighRider.value);
+  onChangeInputHeightRider() {
+    console.log(this.dataForm.controls.heightRider.value);
   }
+
   onChangeInputLegLength() {
     console.log(this.dataForm.controls.legLength.value);
   }
-  ngOnInit() {
-  }
-
 }
