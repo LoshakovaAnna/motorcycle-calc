@@ -21,9 +21,15 @@
                 >
             </div>
             <div class="col-md-6">
-                <p *ngIf="this.dataForm.value.motocycle['heightSaddle']" class="p-4">Height saddle: {{this.dataForm.value.motocycle.heightSaddle}} mm</p>
+                <p *ngIf="this.getHeightSaddle()" class="">Height saddle: {{this.getHeightSaddle()}} mm</p>
+                <p *ngIf="this.getScale()" class="">Scale: {{this.getScale()}}  (px/cm)</p>
+                <p *ngIf="this.getCoordinatesCenterSaddle()" class="">
+                  Coordinates Center Saddlee:
+                  x = {{this.getCoordinatesCenterSaddleX()}},
+                  y = {{this.getCoordinatesCenterSaddleY()}}
+                </p>
             </div>
-        </div>
+
       </div>
 
       <div class="form-group d-flex flex-row justify-content-between">
