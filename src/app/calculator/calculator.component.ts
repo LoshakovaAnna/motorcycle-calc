@@ -23,6 +23,64 @@ export class CalculatorComponent {
     this.motocycles = MOCK.models;
   }
 
+  getImgUrl() {
+    if (this.dataForm) {
+      if (this.dataForm.value.motocycle) {
+        if (this.dataForm.value.motocycle.urlImg) {
+          return this.dataForm.value.motocycle.urlImg;
+        }
+      }
+    }
+    return '';
+  }
+
+  getHeightSaddle() {
+    if (this.dataForm) {
+      if (this.dataForm.value.motocycle) {
+        if (this.dataForm.value.motocycle.heightSaddle) {
+          return this.dataForm.value.motocycle.heightSaddle;
+        }
+      }
+    }
+    return null;
+  }
+
+  getScale() {
+    if (this.dataForm) {
+      if (this.dataForm.value.motocycle) {
+        if (this.dataForm.value.motocycle.scale) {
+          return this.dataForm.value.motocycle.scale;
+        }
+      }
+    }
+    return null;
+  }
+
+  getCoordinatesCenterSaddle() {
+    if (this.dataForm) {
+      if (this.dataForm.value.motocycle) {
+        if (this.dataForm.value.motocycle.coordinatesCenterSaddle) {
+          return this.dataForm.value.motocycle.coordinatesCenterSaddle;
+        }
+      }
+    }
+    return null;
+  }
+
+  getCoordinatesCenterSaddleX() {
+    if (this.getCoordinatesCenterSaddle().x) {
+      return this.dataForm.value.motocycle.coordinatesCenterSaddle.x;
+    }
+    return null;
+  }
+
+  getCoordinatesCenterSaddleY() {
+    if (this.getCoordinatesCenterSaddle().y) {
+      return this.dataForm.value.motocycle.coordinatesCenterSaddle.y;
+    }
+    return null;
+  }
+
   onChangeInputHeightRider() {
     console.log(this.dataForm.controls.heightRider.value);
   }

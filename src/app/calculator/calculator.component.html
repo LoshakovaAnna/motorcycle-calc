@@ -12,9 +12,13 @@
                 </option>
         </select>
 
-        <div class="form-group d-flex flex-row justify-content-between p-2">
-            <div class="col-md-6 pt-2">
-                <img *ngIf="this.dataForm.value.motocycle['urlImg']" alt="moto image" class="img-fluid" [src]="this.dataForm.value.motocycle['urlImg']">
+            <div class="image-moto col-md-12 mt-2">
+                <img *ngIf="this.getImgUrl()"
+                     [src]="this.getImgUrl()"
+                     alt="moto image"
+                     id="img-foto"
+                     class="img-fluid"
+                >
             </div>
             <div class="col-md-6">
                 <p *ngIf="this.dataForm.value.motocycle['heightSaddle']" class="p-4">Height saddle: {{this.dataForm.value.motocycle.heightSaddle}} mm</p>
