@@ -1,42 +1,27 @@
-
 <div class="container mt-1 pt-1">
     <form [formGroup]="dataForm">
       <div>
         <label class="col-md-4" for="motocycle-select">Motocycle model</label>
-        <select class="custom-select col-md-12"
-                id="motocycle-select"
-                formControlName="motocycle"
-                (change) = "onChangeSelectMoto()" >
-                <option  *ngFor="let moto of motocycles " [ngValue]="moto">
-                  {{moto.name}}
-                </option>
+        <select class="custom-select col-md-12" id="motocycle-select" formControlName="motocycle" change) = "onChangeSelectMoto()" >
+                <option  *ngFor="let moto of motocycles " [ngValue]="moto">{{moto.name}}</option>
         </select>
-
             <div class="image-moto col-md-12 mt-2">
-                <img *ngIf="this.getImgUrl()"
-                     [src]="this.getImgUrl()"
-                     alt="moto image"
-                     id="img-foto"
-                     class="img-fluid"
-                >
+                <img *ngIf="this.getImgUrl()" [src]="this.getImgUrl()" alt="moto image" id="img-foto" class="img-fluid" >
             </div>
             <div class="col-md-6">
-                <p *ngIf="this.getHeightSaddle()" class="">Height saddle: {{this.getHeightSaddle()}} mm</p>
-                <p *ngIf="this.getScale()" class="">Scale: {{this.getScale()}}  (px/cm)</p>
-                <p *ngIf="this.getCoordinatesCenterSaddle()" class="">
+                <p *ngIf="this.getHeightSaddle()" >Height saddle: {{this.getHeightSaddle()}} mm</p>
+                <p *ngIf="this.getScale()" >Scale: {{this.getScale()}}  (px/cm)</p>
+                <p *ngIf="this.getCoordinatesCenterSaddle()">
                   Coordinates Center Saddlee:
                   x = {{this.getCoordinatesCenterSaddleX()}},
                   y = {{this.getCoordinatesCenterSaddleY()}}
                 </p>
             </div>
-
       </div>
-
       <div class="form-group d-flex flex-row justify-content-between">
         <label class="col-md-4" for="height-rider">Rider height</label>
         <input formControlName="heightRider" id="height-rider" class="form-control"
                type="number" (change)="onChangeInputHeightRider()">
-
         <label class="col-md-4" for="leg-length">Leg length</label>
         <input formControlName="legLength" id="leg-length" class="form-control"
                type="number" (change)="onChangeInputLegLength()">

@@ -24,61 +24,27 @@ export class CalculatorComponent {
   }
 
   getImgUrl() {
-    if (this.dataForm) {
-      if (this.dataForm.value.motocycle) {
-        if (this.dataForm.value.motocycle.urlImg) {
-          return this.dataForm.value.motocycle.urlImg;
-        }
-      }
-    }
-    return '';
+    return (((this.dataForm) && (this.dataForm.value) && (this.dataForm.value.motocycle) && (this.dataForm.value.motocycle.urlImg)) || '');
   }
 
   getHeightSaddle() {
-    if (this.dataForm) {
-      if (this.dataForm.value.motocycle) {
-        if (this.dataForm.value.motocycle.heightSaddle) {
-          return this.dataForm.value.motocycle.heightSaddle;
-        }
-      }
-    }
-    return null;
+    return (((this.dataForm) && (this.dataForm.value) && (this.dataForm.value.motocycle) && (this.dataForm.value.motocycle.heightSaddle)) || null);
   }
 
   getScale() {
-    if (this.dataForm) {
-      if (this.dataForm.value.motocycle) {
-        if (this.dataForm.value.motocycle.scale) {
-          return this.dataForm.value.motocycle.scale;
-        }
-      }
-    }
-    return null;
+    return (((this.dataForm) && (this.dataForm.value) && (this.dataForm.value.motocycle) && (this.dataForm.value.motocycle.scale)) || null);
   }
 
   getCoordinatesCenterSaddle() {
-    if (this.dataForm) {
-      if (this.dataForm.value.motocycle) {
-        if (this.dataForm.value.motocycle.coordinatesCenterSaddle) {
-          return this.dataForm.value.motocycle.coordinatesCenterSaddle;
-        }
-      }
-    }
-    return null;
+    return (((this.dataForm) && (this.dataForm.value) && (this.dataForm.value.motocycle) && (this.dataForm.value.motocycle.coordinatesCenterSaddle)) || null);
   }
 
   getCoordinatesCenterSaddleX() {
-    if (this.getCoordinatesCenterSaddle().x) {
-      return this.dataForm.value.motocycle.coordinatesCenterSaddle.x;
-    }
-    return null;
+    return (((this.getCoordinatesCenterSaddle()) && (this.dataForm.value.motocycle.coordinatesCenterSaddle.x)) || null);
   }
 
   getCoordinatesCenterSaddleY() {
-    if (this.getCoordinatesCenterSaddle().y) {
-      return this.dataForm.value.motocycle.coordinatesCenterSaddle.y;
-    }
-    return null;
+    return (((this.getCoordinatesCenterSaddle()) && (this.dataForm.value.motocycle.coordinatesCenterSaddle.y)) || null);
   }
 
   onChangeInputHeightRider() {
