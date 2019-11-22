@@ -55,6 +55,10 @@ export class CalculatorComponent {
     return (((this.getCoordinatesCenterSaddle()) && (this.dataForm.value.motocycle.coordinatesCenterSaddle.y)) || null);
   }
 
+  getHeightRider() {
+    return (((this.dataForm) && (this.dataForm.value) && (this.dataForm.value.heightRider)) || null);
+  }
+
   onChangeInputHeightRider() {
     console.log(this.dataForm.controls.heightRider.value);
   }
@@ -65,19 +69,39 @@ export class CalculatorComponent {
 
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
+    this.canvasLeg.clear();
   }
 
   showLeg() {
-    this.canvasLeg.passValue({
-    });
+    const xSaddle = this.getCoordinatesCenterSaddleX();
+    const ySaddle = this.getCoordinatesCenterSaddleY();
+    const heightRider = this.getHeightRider();
+    const heightSaddle = this.getHeightSaddle();
+    const scale = this.getScale();
+
+    const heightRiderPixel = scale * heightRider;
+    const heightSaddlePixel = (scale * heightSaddle) / 10; // cm
+
+    const legPixel = heightRiderPixel / 2;
+    const waistToKneePixel = legPixel / 2;
+    const kneeToFootPixel = legPixel / 2;
+    const footPixel = heightRiderPixel / 7;
+
+    const yInMiddle = heightSaddlePixel / 2;
+    const xMedianaCorner = Math.sqrt(Math.pow(waistToKneePixel, 2) - Math.pow(yInMiddle, 2));
+
+    if (legPixel > heightSaddlePixel) {
+      this.canvasLeg.passValue({
+        xSaddle, ySaddle, xMedianaCorner, yInMiddle, heightSaddlePixel, footPixel, corner: true,
+      });
+    }
+    if (legPixel <= heightSaddlePixel) {
+      this.canvasLeg.passValue({
+        xSaddle, ySaddle, legPixel, footPixel, corner: false,
+      });
+    }
+
     this.canvasLeg.clear();
     this.canvasLeg.redraw();
-  }
-
-  private sketch(p: any) {
-    p.passValue = (value) => {
-    };
-    p.draw = () => {
-    };
   }
 }
