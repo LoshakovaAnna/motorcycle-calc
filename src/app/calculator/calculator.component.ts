@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import * as p5 from 'p5';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
 import { MOCK } from '../shared/mockdata';
