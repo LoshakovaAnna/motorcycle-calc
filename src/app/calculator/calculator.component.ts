@@ -56,16 +56,16 @@ export class CalculatorComponent {
         pict.strokeWeight(3);
         if (draftValues.isCorner) {
           pict.line(draftValues.xSaddle, draftValues.ySaddle,
-                    draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
+            draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-                    draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
+            draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-                    draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.heightSaddlePixel);
+            draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.heightSaddlePixel);
         } else {
           pict.line(draftValues.xSaddle, draftValues.ySaddle,
-                    draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel);
+            draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel,
-                    draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.legPixel);
+            draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.legPixel);
         }
       } else {
         console.log('check your data');
@@ -116,6 +116,10 @@ export class CalculatorComponent {
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
     this.canvasLeg.clear();
+  }
+
+  isHideCanvas() {
+    return !this.getImgUrl();
   }
 
   showLeg() {
