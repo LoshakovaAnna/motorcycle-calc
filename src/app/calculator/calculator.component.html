@@ -3,9 +3,11 @@
     <div>
       <label class="col-md-4" for="motocycle-select">Motocycle model</label>
       <select class="custom-select col-md-12" id="motocycle-select" formControlName="motocycle" (change) = "onChangeSelectMoto()">
-        <option  *ngFor="let moto of motocycles " [ngValue]="moto">{{moto.name}}</option>
+        <option  *ngFor="let moto of motocycles" [ngValue]="moto">{{moto.name}}</option>
       </select>
-      <div class="image-moto col-md-12 mt-2">
+      <div class="image-moto position-relative col-md-12 mt-5">
+        <div class="position-absolute" id="canvas-human">
+        </div>
         <img *ngIf="this.getImgUrl()" [src]="this.getImgUrl()" alt="moto image" id="img-foto" class="img-fluid" >
       </div>
       <div class="col-md-6">

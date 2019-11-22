@@ -18,10 +18,17 @@ export class CalculatorComponent {
     legLength: new FormControl('', Validators.required),
   });
 
+  private canvasLeg;
+
   motocycles: MotorcycleModel[];
 
   constructor() {
     this.motocycles = MOCK.models;
+    this.canvasLeg = new p5(this.sketch, 'canvas-human');
+    this.canvasLeg.setup = () => {
+      this.canvasLeg.createCanvas(1000, 560);
+      this.canvasLeg.noLoop();
+    };
   }
 
   getImgUrl() {
