@@ -12,6 +12,15 @@ import { MOCK } from '../shared/mockdata';
 })
 
 export class CalculatorComponent {
+  constructor() {
+    this.motocycles = MOCK.models;
+    this.canvasLeg = new p5(this.sketch, 'canvas-human');
+    this.canvasLeg.setup = () => {
+      this.canvasLeg.createCanvas(1000, 560);
+      this.canvasLeg.noLoop();
+    };
+  }
+
   dataForm = new FormGroup({
     motocycle: new FormControl('', Validators.required),
     heightRider: new FormControl('', Validators.required),
@@ -22,12 +31,46 @@ export class CalculatorComponent {
 
   motocycles: MotorcycleModel[];
 
-  constructor() {
-    this.motocycles = MOCK.models;
-    this.canvasLeg = new p5(this.sketch, 'canvas-human');
-    this.canvasLeg.setup = () => {
-      this.canvasLeg.createCanvas(1000, 560);
-      this.canvasLeg.noLoop();
+  private sketch(p: any) {
+    const draft = {
+      xSaddle: null,
+      ySaddle: null,
+      xMedianaCorner: null,
+      yInMiddle: null,
+      heightSaddlePixel: null,
+      legPixel: null,
+      footPixel: null,
+      corner: null,
+    };
+    let isShouldDraw = false;
+
+    p.passValue = (value) => {
+      isShouldDraw = true;
+      if ((typeof value) === 'object') {
+        for (const key in value) {
+          if (value[key] === null) {
+            isShouldDraw = false;
+          }
+          draft[key] = value[key];
+        }
+      } else {
+        isShouldDraw = false;
+      }
+    };
+
+    p.draw = () => {
+      if (isShouldDraw) {
+        p.stroke(20, 233, 36);
+        p.strokeWeight(3);
+        if (draft.corner) {
+          p.line(draft.xSaddle, draft.ySaddle, draft.xSaddle + draft.xMedianaCorner, draft.ySaddle + draft.yInMiddle);
+          p.line(draft.xSaddle, draft.ySaddle + draft.heightSaddlePixel, draft.xSaddle + draft.xMedianaCorner, draft.ySaddle + draft.yInMiddle);
+          p.line(draft.xSaddle, draft.ySaddle + draft.heightSaddlePixel, draft.xSaddle + draft.footPixel, draft.ySaddle + draft.heightSaddlePixel);
+        } else {
+          p.line(draft.xSaddle, draft.ySaddle, draft.xSaddle, draft.ySaddle + draft.legPixel);
+          p.line(draft.xSaddle, draft.ySaddle + draft.legPixel, draft.xSaddle + draft.footPixel, draft.ySaddle + draft.legPixel);
+        }
+      }
     };
   }
 
