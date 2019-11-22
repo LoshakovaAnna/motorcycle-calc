@@ -66,4 +66,18 @@ export class CalculatorComponent {
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
   }
+
+  showLeg() {
+    this.canvasLeg.passValue({
+    });
+    this.canvasLeg.clear();
+    this.canvasLeg.redraw();
+  }
+
+  private sketch(p: any) {
+    p.passValue = (value) => {
+    };
+    p.draw = () => {
+    };
+  }
 }
