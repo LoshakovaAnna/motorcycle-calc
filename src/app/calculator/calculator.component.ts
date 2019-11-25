@@ -14,7 +14,7 @@ import { MOCK } from '../shared/mockdata';
 export class CalculatorComponent {
   constructor() {
     this.motocycles = MOCK.models;
-    this.canvasLeg = new p5(CalculatorComponent.sketch, 'canvas-human');
+    this.canvasLeg = new p5(this.sketch, 'canvas-human');
     this.canvasLeg.setup = () => {
       this.canvasLeg.createCanvas(1000, 560);
       this.canvasLeg.noLoop();
@@ -31,7 +31,7 @@ export class CalculatorComponent {
 
   motocycles: MotorcycleModel[];
 
-  static sketch(p: any) {
+  sketch = (p: any) => {
     const pict = p;
     const draftValues = {
       xSaddle: null,
@@ -56,16 +56,20 @@ export class CalculatorComponent {
         pict.strokeWeight(3);
         if (draftValues.isCorner) {
           pict.line(draftValues.xSaddle, draftValues.ySaddle,
-            draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
+            draftValues.xSaddle + draftValues.xMedianCorner,
+            draftValues.ySaddle + draftValues.yInMiddle);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-            draftValues.xSaddle + draftValues.xMedianCorner, draftValues.ySaddle + draftValues.yInMiddle);
+            draftValues.xSaddle + draftValues.xMedianCorner,
+            draftValues.ySaddle + draftValues.yInMiddle);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-            draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.heightSaddlePixel);
+            draftValues.xSaddle + draftValues.footPixel,
+            draftValues.ySaddle + draftValues.heightSaddlePixel);
         } else {
           pict.line(draftValues.xSaddle, draftValues.ySaddle,
             draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel);
           pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel,
-            draftValues.xSaddle + draftValues.footPixel, draftValues.ySaddle + draftValues.legPixel);
+            draftValues.xSaddle + draftValues.footPixel,
+            draftValues.ySaddle + draftValues.legPixel);
         }
       } else {
         console.log('check your data');
@@ -74,35 +78,72 @@ export class CalculatorComponent {
   }
 
   getImgUrl() {
-    return ((this.dataForm && this.dataForm.value && this.dataForm.value.motocycle && this.dataForm.value.motocycle.urlImg)
-      || '');
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.urlImg
+      )
+      || ''
+    );
   }
 
   getHeightSaddle() {
-    return ((this.dataForm && this.dataForm.value && this.dataForm.value.motocycle && this.dataForm.value.motocycle.heightSaddle)
-        || null);
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.heightSaddle
+      )
+      || null
+    );
   }
 
   getScale() {
-    return ((this.dataForm && this.dataForm.value && this.dataForm.value.motocycle && this.dataForm.value.motocycle.scale)
-      || null);
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.scale
+      )
+      || null
+    );
   }
 
   getCoordinatesCenterSaddle() {
-    return ((this.dataForm && this.dataForm.value && this.dataForm.value.motocycle && this.dataForm.value.motocycle.coordinatesCenterSaddle)
-      || null);
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.coordinatesCenterSaddle
+      )
+      || null
+    );
   }
 
   getCoordinatesCenterSaddleX() {
-    return ((this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.x) || null);
+    return (
+      (this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.x)
+      || null
+    );
   }
 
   getCoordinatesCenterSaddleY() {
-    return ((this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.y) || null);
+    return (
+      (this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.y)
+      || null
+    );
   }
 
   getHeightRider() {
-    return ((this.dataForm && this.dataForm.value && this.dataForm.value.heightRider) || null);
+    return (
+      (this.dataForm && this.dataForm.value && this.dataForm.value.heightRider)
+      || null
+    );
   }
 
   onChangeInputHeightRider() {

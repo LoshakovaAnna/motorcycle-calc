@@ -28,7 +28,6 @@ module.exports = {
     'angular/controller_name': 0,
     'import/no-unresolved': 0,
     'import/no-extraneous-dependencies' : 0,
-    'max-len': [2, 140, 2],
   },
 
 };
