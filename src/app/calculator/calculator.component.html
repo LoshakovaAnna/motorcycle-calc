@@ -1,28 +1,33 @@
-<div class="container mt-1 pt-1">
+<div class="center  w-80">
   <form [formGroup]="dataForm">
     <div>
-      <label class="col-md-4" for="motocycle-select">Motocycle model</label>
-      <select class="custom-select col-md-12" id="motocycle-select" formControlName="motocycle" (change) = "onChangeSelectMoto()">
-        <option  *ngFor="let moto of motocycles " [ngValue]="moto">{{moto.name}}</option>
+      <label class="f2 b db ma2 mt4 green" for="motocycle-select">Motocycle model</label>
+      <select class="ba b--green-20 pa2 mb2 db w-100 f3" id="motocycle-select" formControlName="motocycle" (change) = "onChangeSelectMoto()" >
+        <option  *ngFor="let moto of motocycles" [ngValue]="moto">{{moto.name}}</option>
       </select>
-      <div class="image-moto col-md-12 mt-2">
-        <img *ngIf="this.getImgUrl()" [src]="this.getImgUrl()" alt="moto image" id="img-foto" class="img-fluid" >
+      <div class="relative  mt-5">
+        <div class="absolute" [class.dn]="this.isHideCanvas()" id="canvas-human">
+        </div>
+        <img *ngIf="this.getImgUrl()" [src]="this.getImgUrl()" alt="moto image" class="img-moto" >
       </div>
-      <div class="col-md-6">
-        <p *ngIf="this.getHeightSaddle()" >Height saddle: {{this.getHeightSaddle()}} mm</p>
-        <p *ngIf="this.getScale()" >Scale: {{this.getScale()}}  (px/cm)</p>
-        <p *ngIf="this.getCoordinatesCenterSaddle()">
+      <div class="ba f3 b--green br3">
+        <p *ngIf="this.getHeightSaddle()" class="pl3" >Height saddle: {{this.getHeightSaddle()}} mm</p>
+        <p *ngIf="this.getScale()" class="pl3">Scale: {{this.getScale()}}  (px/cm)</p>
+        <p *ngIf="this.getCoordinatesCenterSaddle()"class="pl3">
           Coordinates Center Saddlee:
           x = {{this.getCoordinatesCenterSaddleX()}},
           y = {{this.getCoordinatesCenterSaddleY()}}
         </p>
       </div>
     </div>
-    <div class="form-group d-flex flex-row justify-content-between">
-      <label class="col-md-4" for="height-rider">Rider height</label>
-      <input formControlName="heightRider" id="height-rider" class="form-control" type="number" (change)="onChangeInputHeightRider()">
-      <label class="col-md-4" for="leg-length">Leg length</label>
-      <input formControlName="legLength" id="leg-length" class="form-control" type="number" (change)="onChangeInputLegLength()">
+    <div class="flex  items-center">
+      <div class="pt4 pb4 w-50">
+        <label class="f3 lh-title b-ns" for="height-rider">Rider height</label>
+        <input formControlName="heightRider" id="height-rider" class="f3 ma4" type="number" (change)="onChangeInputHeightRider()">
+      </div>
+      <div class="w-50">
+        <button (click)="this.showLeg()" class="f2 bg-green white b--green br2 pa2">Show leg</button>
+      </div>
     </div>
   </form>
 </div>
