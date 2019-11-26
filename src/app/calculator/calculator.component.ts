@@ -30,6 +30,40 @@ export class CalculatorComponent {
 
   canvasTors;
 
+  riderValues = {
+    height: null,
+    heightRiderPixel: null,
+    headPixel: null,
+    neckPixel: null,
+    torsPixel: null,
+    palmPixel: null,
+    armPixel: null,
+    legPixel: null,
+    waistToKneePixel: null,
+    kneeToFootPixel: null,
+    footPixel: null,
+    coordinateWaist: {
+      x: null,
+      y: null,
+    },
+    coordinateKnee: {
+      x: null,
+      y: null,
+    },
+    coordinateFootOnGround: {
+      x: null,
+      y: null,
+    },
+    coordinatePalmCenter: {
+      x: null,
+      y: null,
+    },
+    coordinateShoulder: {
+      x: null,
+      y: null,
+    },
+  };
+
   motocycles: MotorcycleModel[];
 
   dataForm = new FormGroup({
