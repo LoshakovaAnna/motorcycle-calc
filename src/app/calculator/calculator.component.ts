@@ -17,12 +17,12 @@ export class CalculatorComponent {
     this.motocycles = MOCK.models;
     this.canvasLeg = new p5(this.sketchLeg, 'canvas-human');
     this.canvasLeg.setup = () => {
-      this.canvasLeg.createCanvas(1000, 560).position(0, 0);
+      this.canvasLeg.createCanvas(1000, 660).position(0, 0);
       this.canvasLeg.noLoop();
     };
     this.canvasTors = new p5(this.sketchTorsAndArm, 'canvas-human');
     this.canvasTors.setup = () => {
-      this.canvasTors.createCanvas(1000, 560).position(0, 0);
+      this.canvasTors.createCanvas(1000, 660).position(0, 0);
       this.canvasTors.noLoop();
     };
   }
