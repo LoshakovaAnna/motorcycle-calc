@@ -347,18 +347,34 @@ export class CalculatorComponent {
     return coordinateThirdCorner;
   }
 
-    if (legPixel > heightSaddlePixel) {
-      this.canvasLeg.passValue({
-        xSaddle, ySaddle, xMedianCorner, yInMiddle, heightSaddlePixel, footPixel, isCorner: true,
-      });
-    }
-    if (legPixel <= heightSaddlePixel) {
-      this.canvasLeg.passValue({
-        xSaddle, ySaddle, legPixel, footPixel, isCorner: false,
-      });
-    }
+  showHuman() {
+    this.calculateRiderValues();
+    this.showLeg();
+    this.showArmAndTors();
+  }
 
+  showLeg() {
+    const {
+      coordinateWaist, coordinateKnee, coordinateFootOnGround, footPixel,
+    } = this.riderValues;
+    this.canvasLeg.passValue({
+      coordinateWaist,
+      coordinateKnee,
+      coordinateFootOnGround,
+      footPixel,
+    });
     this.canvasLeg.clear();
     this.canvasLeg.redraw();
+  }
+
+  showArmAndTors() {
+    const {
+      coordinateWaist, coordinatePalmCenter, coordinateShoulder,
+    } = this.riderValues;
+    this.canvasTors.passValue({
+      coordinateWaist, coordinatePalmCenter, coordinateShoulder,
+    });
+    this.canvasTors.clear();
+    this.canvasTors.redraw();
   }
 }
