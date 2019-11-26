@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormGroup,
-  Validators,
-  FormControl,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import * as p5 from 'p5';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
@@ -402,7 +397,7 @@ export class CalculatorComponent {
     return coordinateThirdCorner;
   }
 
-  showHuman() {
+  showRider() {
     this.calculateRiderValues();
     this.showLeg();
     this.showArmAndTors();
