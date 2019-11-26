@@ -14,12 +14,23 @@ import { MOCK } from '../shared/mockdata';
 export class CalculatorComponent {
   constructor() {
     this.motocycles = MOCK.models;
-    this.canvasLeg = new p5(this.sketch, 'canvas-human');
+    this.canvasLeg = new p5(this.sketchLeg, 'canvas-human');
     this.canvasLeg.setup = () => {
-      this.canvasLeg.createCanvas(1000, 560);
+      this.canvasLeg.createCanvas(1000, 560).position(0, 0);
       this.canvasLeg.noLoop();
     };
+    this.canvasTors = new p5(this.sketchTorsAndArm, 'canvas-human');
+    this.canvasTors.setup = () => {
+      this.canvasTors.createCanvas(1000, 560).position(0, 0);
+      this.canvasTors.noLoop();
+    };
   }
+
+  canvasLeg;
+
+  canvasTors;
+
+  motocycles: MotorcycleModel[];
 
   dataForm = new FormGroup({
     motocycle: new FormControl('', Validators.required),
@@ -27,50 +38,59 @@ export class CalculatorComponent {
     legLength: new FormControl('', Validators.required),
   });
 
-  private canvasLeg;
-
-  motocycles: MotorcycleModel[];
-
-  sketch = (p: any) => {
+  sketchLeg = (p: any) => {
     const pict = p;
     const draftValues = {
-      xSaddle: null,
-      ySaddle: null,
-      xMedianCorner: null,
-      yInMiddle: null,
-      heightSaddlePixel: null,
-      legPixel: null,
+      coordinateWaist: null,
+      coordinateKnee: null,
+      coordinateFootOnGround: null,
       footPixel: null,
-      isCorner: null,
+      isShouldDraw: false,
     };
-    let isShouldDraw = false;
-
     pict.passValue = (value) => {
-      isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null)));
+      draftValues.isShouldDraw = false;
+      draftValues.isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null)));
       Object.assign(draftValues, value);
     };
-
     pict.draw = () => {
-      if (isShouldDraw) {
+      if (draftValues.isShouldDraw) {
         pict.stroke(20, 233, 36);
         pict.strokeWeight(3);
-        if (draftValues.isCorner) {
-          pict.line(draftValues.xSaddle, draftValues.ySaddle,
-            draftValues.xSaddle + draftValues.xMedianCorner,
-            draftValues.ySaddle + draftValues.yInMiddle);
-          pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-            draftValues.xSaddle + draftValues.xMedianCorner,
-            draftValues.ySaddle + draftValues.yInMiddle);
-          pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.heightSaddlePixel,
-            draftValues.xSaddle + draftValues.footPixel,
-            draftValues.ySaddle + draftValues.heightSaddlePixel);
-        } else {
-          pict.line(draftValues.xSaddle, draftValues.ySaddle,
-            draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel);
-          pict.line(draftValues.xSaddle, draftValues.ySaddle + draftValues.legPixel,
-            draftValues.xSaddle + draftValues.footPixel,
-            draftValues.ySaddle + draftValues.legPixel);
-        }
+        pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
+          draftValues.coordinateKnee.x, draftValues.coordinateKnee.y);
+        pict.line(draftValues.coordinateKnee.x, draftValues.coordinateKnee.y,
+          draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y);
+        pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
+          draftValues.coordinateFootOnGround.x + draftValues.footPixel,
+          draftValues.coordinateFootOnGround.y);
+      } else {
+        console.log('check your data');
+      }
+    };
+  }
+
+  sketchTorsAndArm = (p: any) => {
+    const pict = p;
+    const draftValues = {
+      coordinateWaist: { x: null, y: null },
+      coordinatePalmCenter: { x: null, y: null },
+      coordinateShoulder: { x: null, y: null },
+      isShouldDraw: false,
+    };
+    pict.passValue = (value) => {
+      draftValues.isShouldDraw = false;
+      draftValues.isShouldDraw = !Object.values(value).some((v) => (v === null || isNaN(v.x)
+        || isNaN(v.y)));
+      Object.assign(draftValues, value);
+    };
+    pict.draw = () => {
+      if (draftValues.isShouldDraw) {
+        pict.stroke(248, 93, 10);
+        pict.strokeWeight(3);
+        pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
+          draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
+        pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
+          draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
       } else {
         console.log('check your data');
       }
@@ -157,6 +177,7 @@ export class CalculatorComponent {
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
     this.canvasLeg.clear();
+    this.canvasTors.clear();
   }
 
   isHideCanvas() {
