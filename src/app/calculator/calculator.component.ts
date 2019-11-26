@@ -99,7 +99,7 @@ export class CalculatorComponent {
           draftValues.coordinateFootOnGround.x + draftValues.footPixel,
           draftValues.coordinateFootOnGround.y);
       } else {
-        console.log('check your data');
+        console.log('sketchLeg: check your data');
       }
     };
   }
@@ -107,19 +107,38 @@ export class CalculatorComponent {
   sketchTorsAndArm = (p: any) => {
     const pict = p;
     const draftValues = {
-      coordinateWaist: { x: null, y: null },
-      coordinatePalmCenter: { x: null, y: null },
-      coordinateShoulder: { x: null, y: null },
-      isShouldDraw: false,
+      coordinateWaist: {
+        x: null,
+        y: null,
+      },
+      coordinatePalmCenter: {
+        x: null,
+        y: null,
+      },
+      coordinateShoulder: {
+        x: null,
+        y: null,
+      },
     };
+    let isShouldDraw = false;
     pict.passValue = (value) => {
-      draftValues.isShouldDraw = false;
-      draftValues.isShouldDraw = !Object.values(value).some((v) => (v === null || isNaN(v['x'])
-        || isNaN(v['y'])));
+      isShouldDraw = false;
       Object.assign(draftValues, value);
+      isShouldDraw = !Object.values(draftValues).some((v) => {
+        if (v === null) {
+          return true;
+        }
+        if ((v.hasOwnProperty('x')) && isNaN(v.x)) {
+          return true;
+        }
+        if ((v.hasOwnProperty('y')) && isNaN(v.y)) {
+          return true;
+        }
+        return false;
+      });
     };
     pict.draw = () => {
-      if (draftValues.isShouldDraw) {
+      if (isShouldDraw) {
         pict.stroke(248, 93, 10);
         pict.strokeWeight(3);
         pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
@@ -127,7 +146,7 @@ export class CalculatorComponent {
         pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
       } else {
-        console.log('check your data');
+        console.log('sketchTorsAndArm: check your data');
       }
     };
   }
@@ -269,6 +288,9 @@ export class CalculatorComponent {
   }
 
   calculateCoordinateKnee(heightSaddlePixel: number) {
+    if (this.riderValues.coordinateWaist === null) {
+      return null;
+    }
     const coordKnee = {
       x: null,
       y: null,
@@ -292,12 +314,11 @@ export class CalculatorComponent {
         x: this.getCoordinatesCenterSaddleX(),
         y: this.getCoordinatesCenterSaddleY() + heightSaddlePixel,
       };
-    } else {
-      return {
-        x: this.getCoordinatesCenterSaddleX(),
-        y: this.getCoordinatesCenterSaddleY() + this.riderValues.legPixel,
-      };
     }
+    return {
+      x: this.getCoordinatesCenterSaddleX(),
+      y: this.getCoordinatesCenterSaddleY() + this.riderValues.legPixel,
+    };
   }
 
   calculateLengthBetweenTwoPoints = (A, B: CoordinateModel) => {
