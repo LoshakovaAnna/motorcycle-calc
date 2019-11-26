@@ -114,8 +114,8 @@ export class CalculatorComponent {
     };
     pict.passValue = (value) => {
       draftValues.isShouldDraw = false;
-      draftValues.isShouldDraw = !Object.values(value).some((v) => (v === null || isNaN(v.x)
-        || isNaN(v.y)));
+      draftValues.isShouldDraw = !Object.values(value).some((v) => (v === null || isNaN(v['x'])
+        || isNaN(v['y'])));
       Object.assign(draftValues, value);
     };
     pict.draw = () => {
@@ -287,10 +287,17 @@ export class CalculatorComponent {
   }
 
   calculateCoordinateFootOnGround(heightSaddlePixel: number) {
-    return {
-      x: this.getCoordinatesCenterSaddleX(),
-      y: this.getCoordinatesCenterSaddleY() + heightSaddlePixel,
-    };
+    if (this.riderValues.legPixel > heightSaddlePixel) {
+      return {
+        x: this.getCoordinatesCenterSaddleX(),
+        y: this.getCoordinatesCenterSaddleY() + heightSaddlePixel,
+      };
+    } else {
+      return {
+        x: this.getCoordinatesCenterSaddleX(),
+        y: this.getCoordinatesCenterSaddleY() + this.riderValues.legPixel,
+      };
+    }
   }
 
   calculateLengthBetweenTwoPoints = (A, B: CoordinateModel) => {
@@ -355,7 +362,10 @@ export class CalculatorComponent {
 
   showLeg() {
     const {
-      coordinateWaist, coordinateKnee, coordinateFootOnGround, footPixel,
+      coordinateWaist,
+      coordinateKnee,
+      coordinateFootOnGround,
+      footPixel,
     } = this.riderValues;
     this.canvasLeg.passValue({
       coordinateWaist,
