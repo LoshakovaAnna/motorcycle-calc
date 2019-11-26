@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormControl,
+  AbstractControl,
+} from '@angular/forms';
 import * as p5 from 'p5';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
@@ -68,10 +73,32 @@ export class CalculatorComponent {
   motocycles: MotorcycleModel[];
 
   dataForm = new FormGroup({
-    motocycle: new FormControl('', Validators.required),
-    heightRider: new FormControl('', Validators.required),
-    legLength: new FormControl('', Validators.required),
+    motocycle: new FormControl('', this.validatorMotocycle),
+    heightRider: new FormControl('', this.validatorHeightRider),
   });
+
+  validatorMotocycle(control: AbstractControl) {
+    if (!(control.value)) {
+      return {
+        isError: true,
+      };
+    }
+    return null;
+  }
+
+  validatorHeightRider(control: AbstractControl) {
+    if (!(control.value)) {
+      return {
+        isError: true,
+      };
+    }
+    if ((Number(control.value) < 100) || (Number(control.value) > 250)) {
+      return {
+        isError: true,
+      };
+    }
+    return null;
+  }
 
   sketchLeg = (p: any) => {
     const pict = p;
