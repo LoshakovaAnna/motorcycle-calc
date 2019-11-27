@@ -63,15 +63,10 @@ export class CalculatorComponent {
 
   dataForm = new FormGroup({
     motocycle: new FormControl('', Validators.required),
-    heightRider: new FormControl('', this.validatorHeightRider),
+    heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
   });
 
   validatorHeightRider(control: AbstractControl) {
-    if (!(control.value)) {
-      return {
-        isError: true,
-      };
-    }
     if ((Number(control.value) < 100) || (Number(control.value) > 250)) {
       return {
         isError: true,
