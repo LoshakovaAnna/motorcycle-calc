@@ -13,7 +13,7 @@
       <div class="ba f3 b--green br3">
         <p *ngIf="this.getHeightSaddle()" class="pl3" >Height saddle: {{this.getHeightSaddle()}} mm</p>
         <p *ngIf="this.getScale()" class="pl3">Scale: {{this.getScale()}}  (px/cm)</p>
-        <p *ngIf="this.getCoordinatesCenterSaddle()"class="pl3">
+        <p *ngIf="this.getCoordinatesCenterSaddle()" class="pl3">
           Coordinates Center Saddlee:
           x = {{this.getCoordinatesCenterSaddleX()}},
           y = {{this.getCoordinatesCenterSaddleY()}}
@@ -26,7 +26,8 @@
         <input formControlName="heightRider" id="height-rider" class="f3 ma4" type="number" (change)="onChangeInputHeightRider()">
       </div>
       <div class="w-50">
-        <button (click)="this.showLeg()" class="f2 bg-green white b--green br2 pa2">Show leg</button>
+        <button (click)="this.showRider()" class="f2 bg-green white b--green br2 pa2 btn-show"
+                [attr.disabled]="dataForm.status!=='VALID' ? 'disabled': null">Show Rider</button>
       </div>
     </div>
   </form>
