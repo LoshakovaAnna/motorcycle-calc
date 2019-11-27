@@ -90,7 +90,7 @@ export class CalculatorComponent {
     return null;
   }
 
-  sketchLeg = (p: any) => {
+  sketchLeg = (p: p5) => {
     const pict = p;
     const draftValues = {
       coordinateWaist: null,
@@ -121,7 +121,7 @@ export class CalculatorComponent {
     };
   }
 
-  sketchTorsAndArm = (p: any) => {
+  sketchTorsAndArm = (p: p5) => {
     const pict = p;
     const draftValues = {
       coordinateWaist: {
@@ -145,10 +145,10 @@ export class CalculatorComponent {
         if (v === null) {
           return true;
         }
-        if ((v.hasOwnProperty('x')) && isNaN(v.x)) {
+        if (isNaN(v.x)) {
           return true;
         }
-        if ((v.hasOwnProperty('y')) && isNaN(v.y)) {
+        if (isNaN(v.y)) {
           return true;
         }
         return false;
