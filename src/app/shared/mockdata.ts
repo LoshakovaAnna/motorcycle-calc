@@ -7,7 +7,11 @@ export const MOCK = {
       scale: 3.37,
       coordinatesCenterSaddle: {
         x: 330,
-        y: 205,
+        y: 305,
+      },
+      coordinatesHandlebar: {
+        x: 532,
+        y: 233,
       },
     },
     {
@@ -17,7 +21,11 @@ export const MOCK = {
       scale: 3.54,
       coordinatesCenterSaddle: {
         x: 290,
-        y: 215,
+        y: 315,
+      },
+      coordinatesHandlebar: {
+        x: 528,
+        y: 270,
       },
     },
     {
@@ -27,7 +35,11 @@ export const MOCK = {
       scale: 4,
       coordinatesCenterSaddle: {
         x: 370,
-        y: 214,
+        y: 314,
+      },
+      coordinatesHandlebar: {
+        x: 560,
+        y: 240,
       },
     },
   ],
