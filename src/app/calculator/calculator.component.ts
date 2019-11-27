@@ -5,6 +5,7 @@ import * as p5 from 'p5';
 import { MotorcycleModel } from '../shared/motorcycle.model';
 import { CoordinateModel } from '../shared/coordinate.model';
 import { MOCK } from '../shared/mockdata';
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 
 @Component({
   selector: 'app-calculator',
@@ -17,12 +18,12 @@ export class CalculatorComponent {
     this.motocycles = MOCK.models;
     this.canvasLeg = new p5(this.sketchLeg, 'canvas-human');
     this.canvasLeg.setup = () => {
-      this.canvasLeg.createCanvas(this.CANVAS_WIDTH, this.CANVAS_HEIGHT).position(0, 0);
+      this.canvasLeg.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
       this.canvasLeg.noLoop();
     };
     this.canvasTors = new p5(this.sketchTorsAndArm, 'canvas-human');
     this.canvasTors.setup = () => {
-      this.canvasTors.createCanvas(this.CANVAS_WIDTH, this.CANVAS_HEIGHT).position(0, 0);
+      this.canvasTors.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
       this.canvasTors.noLoop();
     };
   }
@@ -30,10 +31,6 @@ export class CalculatorComponent {
   canvasLeg;
 
   canvasTors;
-
-  CANVAS_WIDTH = 1000;
-
-  CANVAS_HEIGHT = 660;
 
   riderValues = {
     height: null,
