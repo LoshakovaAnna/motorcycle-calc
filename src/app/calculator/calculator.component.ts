@@ -38,7 +38,7 @@ export class CalculatorComponent {
     heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
   });
 
-  initializationRider = () => {
+  initializationRider() {
     const newRiderValues = {
       height: null,
       heightRiderPixel: null,
@@ -84,7 +84,7 @@ export class CalculatorComponent {
     return null;
   }
 
-  sketch = (p: p5) => {
+  sketch(p: p5) {
     const pict = p;
     const draftValues = {
       coordinateWaist: {
@@ -283,7 +283,7 @@ export class CalculatorComponent {
   }
 
   calculateCoordinateKnee(coordinateWaist: CoordinateModel, heightSaddlePixel, legPixel,
-                          waistToKneePixel: number) {
+    waistToKneePixel: number) {
     if (coordinateWaist === null) {
       return null;
     }
@@ -293,8 +293,8 @@ export class CalculatorComponent {
     };
     if (legPixel > heightSaddlePixel) {
       coordinateKnee.x = Math.sqrt(
-        Math.pow(waistToKneePixel, 2)
-        - Math.pow((heightSaddlePixel / 2), 2),
+        waistToKneePixel ** 2
+        - (heightSaddlePixel / 2) ** 2,
       )
         + coordinateWaist.x;
     } else {
@@ -317,15 +317,15 @@ export class CalculatorComponent {
     };
   }
 
-  calculateLengthBetweenTwoPoints = (A, B: CoordinateModel) => {
+  calculateLengthBetweenTwoPoints(A, B: CoordinateModel) {
     if (A === null || B === null) {
       return null;
     }
-    return Math.sqrt(Math.pow((B.x - A.x), 2) + Math.pow(B.y - A.y, 2));
+    return Math.sqrt((B.x - A.x) ** 2 + (B.y - A.y) ** 2);
   }
 
   calculateCoordinateThirdCornerOfTriangle(coordinateFirstCorner: CoordinateModel,
-                                           coordinateSecondCorner: CoordinateModel, lenghtFirstSide, lenghtSecondSide: number) {
+    coordinateSecondCorner: CoordinateModel, lenghtFirstSide, lenghtSecondSide: number) {
     if (
       coordinateFirstCorner === null
       || coordinateSecondCorner === null
@@ -338,14 +338,14 @@ export class CalculatorComponent {
       coordinateFirstCorner, coordinateSecondCorner,
     );
     const segmentThirdSideDividedByHeight = (
-      Math.pow(lenghtFirstSide, 2)
-      - Math.pow(lenghtSecondSide, 2)
-      + Math.pow(lenghtThirdSide, 2)
+      lenghtFirstSide ** 2
+      - lenghtSecondSide ** 2
+      + lenghtThirdSide ** 2
     )
       / (lenghtThirdSide * 2);
     const heightOfThirdCorner = Math.sqrt(
-      Math.pow(lenghtFirstSide, 2)
-      - Math.pow(segmentThirdSideDividedByHeight, 2),
+      lenghtFirstSide ** 2
+      - segmentThirdSideDividedByHeight ** 2,
     );
     const pointThirdSideDividedByHeight = { x: null, y: null };
     pointThirdSideDividedByHeight.x = coordinateFirstCorner.x
