@@ -19,7 +19,27 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 export class CalculatorComponent {
   constructor() {
     this.motocycles = MOCK.models;
-    this.riderValues = {
+    this.riderValues = this.initializationRider();
+    this.canvas = new p5(this.sketch, 'canvas-human');
+    this.canvas.setup = () => {
+      this.canvas.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
+      this.canvas.noLoop();
+    };
+  }
+
+  canvas: p5;
+
+  riderValues: RiderModel;
+
+  motocycles: MotorcycleModel[];
+
+  dataForm = new FormGroup({
+    motocycle: new FormControl('', Validators.required),
+    heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
+  });
+
+  initializationRider = () => {
+    const newRiderValues = {
       height: null,
       heightRiderPixel: null,
       headPixel: null,
@@ -52,23 +72,8 @@ export class CalculatorComponent {
         y: null,
       },
     };
-    this.canvas = new p5(this.sketch, 'canvas-human');
-    this.canvas.setup = () => {
-      this.canvas.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
-      this.canvas.noLoop();
-    };
+    return newRiderValues;
   }
-
-  canvas: p5;
-
-  riderValues: RiderModel;
-
-  motocycles: MotorcycleModel[];
-
-  dataForm = new FormGroup({
-    motocycle: new FormControl('', Validators.required),
-    heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
-  });
 
   validatorHeightRider(control: AbstractControl) {
     if ((Number(control.value) < 100) || (Number(control.value) > 250)) {
@@ -230,67 +235,77 @@ export class CalculatorComponent {
     return !this.getImgUrl();
   }
 
-  calculateRiderValues() {
-    this.calculateLengthsRiderBodyParts();
-    this.calculateCoordinatesRiderBodyParts();
-    console.log('calcalated riderValues', this.riderValues);
+  calculateRiderValues(rider: RiderModel, scale, heightRider, heightSaddle: number) {
+    const heightSaddlePixel = (scale * heightSaddle) / 10; // cm
+    let newRiderValues = this.initializationRider();
+    Object.assign(newRiderValues, rider);
+    newRiderValues = this.calculateLengthsRiderBodyParts(newRiderValues, scale, heightRider);
+    newRiderValues = this.calculateCoordinatesRiderBodyParts(newRiderValues, heightSaddlePixel);
+    return newRiderValues;
   }
 
-  calculateLengthsRiderBodyParts() {
-    const scale = this.getScale();
-    this.riderValues.height = this.getHeightRider();
-    this.riderValues.heightRiderPixel = scale * this.riderValues.height;
-    this.riderValues.headPixel = this.riderValues.heightRiderPixel / 8;
-    this.riderValues.neckPixel = this.riderValues.heightRiderPixel * 0.03;
-    this.riderValues.torsPixel = this.riderValues.headPixel * 3 - this.riderValues.neckPixel;
-    this.riderValues.palmPixel = this.riderValues.heightRiderPixel * 0.09;
-    this.riderValues.armPixel = this.riderValues.heightRiderPixel * 0.1875
-      + this.riderValues.heightRiderPixel / 7
-      + this.riderValues.palmPixel / 2;
-    this.riderValues.legPixel = this.riderValues.heightRiderPixel / 2;
-    this.riderValues.waistToKneePixel = this.riderValues.legPixel / 2;
-    this.riderValues.kneeToFootPixel = this.riderValues.legPixel / 2;
-    this.riderValues.footPixel = this.riderValues.heightRiderPixel / 7;
+  calculateLengthsRiderBodyParts(riderValues: RiderModel, scale, heightRider: number) {
+    const newRiderValues = this.initializationRider();
+    Object.assign(newRiderValues, riderValues);
+    newRiderValues.height = heightRider;
+    newRiderValues.heightRiderPixel = scale * newRiderValues.height;
+    newRiderValues.headPixel = newRiderValues.heightRiderPixel / 8;
+    newRiderValues.neckPixel = newRiderValues.heightRiderPixel * 0.03;
+    newRiderValues.torsPixel = newRiderValues.headPixel * 3 - newRiderValues.neckPixel;
+    newRiderValues.palmPixel = newRiderValues.heightRiderPixel * 0.09;
+    newRiderValues.armPixel = newRiderValues.heightRiderPixel * 0.1875
+      + newRiderValues.heightRiderPixel / 7
+      + newRiderValues.palmPixel / 2;
+    newRiderValues.legPixel = newRiderValues.heightRiderPixel / 2;
+    newRiderValues.waistToKneePixel = newRiderValues.legPixel / 2;
+    newRiderValues.kneeToFootPixel = newRiderValues.legPixel / 2;
+    newRiderValues.footPixel = newRiderValues.heightRiderPixel / 7;
+    return newRiderValues;
   }
 
-  calculateCoordinatesRiderBodyParts() {
-    const scale = this.getScale();
-    const heightSaddle = this.getHeightSaddle();
-    const hSaddlePixel = (scale * heightSaddle) / 10; // cm
-    this.riderValues.coordinateWaist = this.getCoordinatesCenterSaddle();
-    this.riderValues.coordinateKnee = this.calculateCoordinateKnee(hSaddlePixel);
-    this.riderValues.coordinateFootOnGround = this.calculateCoordinateFootOnGround(hSaddlePixel);
-    this.riderValues.coordinatePalmCenter = this.getCoordinatesHandlebar();
-    this.riderValues.coordinateShoulder = this.calculateCoordinateThirdCornerOfTriangle(
-      this.riderValues.coordinateWaist,
-      this.riderValues.coordinatePalmCenter,
-      this.riderValues.torsPixel, this.riderValues.armPixel,
+  calculateCoordinatesRiderBodyParts(riderValues: RiderModel, heightSaddlePixel: number) {
+    const newRiderValues = this.initializationRider();
+    Object.assign(newRiderValues, riderValues);
+    newRiderValues.coordinateWaist = this.getCoordinatesCenterSaddle();
+    newRiderValues.coordinateKnee = this.calculateCoordinateKnee(
+      newRiderValues.coordinateWaist, heightSaddlePixel, newRiderValues.legPixel,
+      newRiderValues.waistToKneePixel,
     );
+    newRiderValues.coordinateFootOnGround = this.calculateCoordinateFootOnGround(
+      heightSaddlePixel, newRiderValues.legPixel,
+    );
+    newRiderValues.coordinatePalmCenter = this.getCoordinatesHandlebar();
+    newRiderValues.coordinateShoulder = this.calculateCoordinateThirdCornerOfTriangle(
+      newRiderValues.coordinateWaist, newRiderValues.coordinatePalmCenter,
+      newRiderValues.torsPixel, newRiderValues.armPixel,
+    );
+    return newRiderValues;
   }
 
-  calculateCoordinateKnee(heightSaddlePixel: number) {
-    if (this.riderValues.coordinateWaist === null) {
+  calculateCoordinateKnee(coordinateWaist: CoordinateModel, heightSaddlePixel, legPixel,
+                          waistToKneePixel: number) {
+    if (coordinateWaist === null) {
       return null;
     }
-    const coordKnee = {
+    const coordinateKnee = {
       x: null,
       y: null,
     };
-    if (this.riderValues.legPixel > heightSaddlePixel) {
-      coordKnee.x = Math.sqrt(
-        Math.pow(this.riderValues.waistToKneePixel, 2)
+    if (legPixel > heightSaddlePixel) {
+      coordinateKnee.x = Math.sqrt(
+        Math.pow(waistToKneePixel, 2)
         - Math.pow((heightSaddlePixel / 2), 2),
       )
-        + this.riderValues.coordinateWaist.x;
+        + coordinateWaist.x;
     } else {
-      coordKnee.x = this.riderValues.coordinateWaist.x;
+      coordinateKnee.x = coordinateWaist.x;
     }
-    coordKnee.y = (heightSaddlePixel / 2) + this.riderValues.coordinateWaist.y;
-    return coordKnee;
+    coordinateKnee.y = (heightSaddlePixel / 2) + coordinateWaist.y;
+    return coordinateKnee;
   }
 
-  calculateCoordinateFootOnGround(heightSaddlePixel: number) {
-    if (this.riderValues.legPixel > heightSaddlePixel) {
+  calculateCoordinateFootOnGround(heightSaddlePixel, legPixel: number) {
+    if (legPixel > heightSaddlePixel) {
       return {
         x: this.getCoordinatesCenterSaddleX(),
         y: this.getCoordinatesCenterSaddleY() + heightSaddlePixel,
@@ -298,7 +313,7 @@ export class CalculatorComponent {
     }
     return {
       x: this.getCoordinatesCenterSaddleX(),
-      y: this.getCoordinatesCenterSaddleY() + this.riderValues.legPixel,
+      y: this.getCoordinatesCenterSaddleY() + legPixel,
     };
   }
 
@@ -310,7 +325,7 @@ export class CalculatorComponent {
   }
 
   calculateCoordinateThirdCornerOfTriangle(coordinateFirstCorner: CoordinateModel,
-    coordinateSecondCorner: CoordinateModel, lenghtFirstSide, lenghtSecondSide: number) {
+                                           coordinateSecondCorner: CoordinateModel, lenghtFirstSide, lenghtSecondSide: number) {
     if (
       coordinateFirstCorner === null
       || coordinateSecondCorner === null
@@ -319,8 +334,9 @@ export class CalculatorComponent {
     ) {
       return null;
     }
-    const lenghtThirdSide = this.calculateLengthBetweenTwoPoints(coordinateFirstCorner,
-      coordinateSecondCorner);
+    const lenghtThirdSide = this.calculateLengthBetweenTwoPoints(
+      coordinateFirstCorner, coordinateSecondCorner,
+    );
     const segmentThirdSideDividedByHeight = (
       Math.pow(lenghtFirstSide, 2)
       - Math.pow(lenghtSecondSide, 2)
@@ -357,11 +373,16 @@ export class CalculatorComponent {
   }
 
   showRider() {
-    this.calculateRiderValues();
-    this.drawRider();
+    const scale = this.getScale();
+    const heightRider = this.getHeightRider();
+    const heightSaddle = this.getHeightSaddle();
+    this.riderValues = this.calculateRiderValues(
+      this.riderValues, scale, heightRider, heightSaddle,
+    );
+    this.drawRider(this.riderValues, this.canvas);
   }
 
-  drawRider() {
+  drawRider(rider: RiderModel, canvas: p5) {
     const {
       coordinatePalmCenter,
       coordinateShoulder,
@@ -369,8 +390,8 @@ export class CalculatorComponent {
       coordinateKnee,
       coordinateFootOnGround,
       footPixel,
-    } = this.riderValues;
-    this.canvas.passValue({
+    } = rider;
+    canvas.passValue({
       coordinatePalmCenter,
       coordinateShoulder,
       coordinateWaist,
@@ -378,7 +399,7 @@ export class CalculatorComponent {
       coordinateFootOnGround,
       footPixel,
     });
-    this.canvas.clear();
-    this.canvas.redraw();
+    canvas.clear();
+    canvas.redraw();
   }
 }
