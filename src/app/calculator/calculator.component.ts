@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormGroup, FormControl, Validators, AbstractControl,
+} from '@angular/forms';
 import * as p5 from 'p5';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
 import { CoordinateModel } from '../shared/coordinate.model';
+import { RiderModel } from '../shared/rider.model';
 import { MOCK } from '../shared/mockdata';
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 
@@ -16,6 +19,39 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 export class CalculatorComponent {
   constructor() {
     this.motocycles = MOCK.models;
+    this.riderValues = {
+      height: null,
+      heightRiderPixel: null,
+      headPixel: null,
+      neckPixel: null,
+      torsPixel: null,
+      palmPixel: null,
+      armPixel: null,
+      legPixel: null,
+      waistToKneePixel: null,
+      kneeToFootPixel: null,
+      footPixel: null,
+      coordinateWaist: {
+        x: null,
+        y: null,
+      },
+      coordinateKnee: {
+        x: null,
+        y: null,
+      },
+      coordinateFootOnGround: {
+        x: null,
+        y: null,
+      },
+      coordinatePalmCenter: {
+        x: null,
+        y: null,
+      },
+      coordinateShoulder: {
+        x: null,
+        y: null,
+      },
+    };
     this.canvas = new p5(this.sketch, 'canvas-human');
     this.canvas.setup = () => {
       this.canvas.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
@@ -25,39 +61,7 @@ export class CalculatorComponent {
 
   canvas: p5;
 
-  riderValues = {
-    height: null,
-    heightRiderPixel: null,
-    headPixel: null,
-    neckPixel: null,
-    torsPixel: null,
-    palmPixel: null,
-    armPixel: null,
-    legPixel: null,
-    waistToKneePixel: null,
-    kneeToFootPixel: null,
-    footPixel: null,
-    coordinateWaist: {
-      x: null,
-      y: null,
-    },
-    coordinateKnee: {
-      x: null,
-      y: null,
-    },
-    coordinateFootOnGround: {
-      x: null,
-      y: null,
-    },
-    coordinatePalmCenter: {
-      x: null,
-      y: null,
-    },
-    coordinateShoulder: {
-      x: null,
-      y: null,
-    },
-  };
+  riderValues: RiderModel;
 
   motocycles: MotorcycleModel[];
 
