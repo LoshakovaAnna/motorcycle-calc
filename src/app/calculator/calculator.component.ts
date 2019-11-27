@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import * as p5 from 'p5';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
@@ -72,18 +72,9 @@ export class CalculatorComponent {
   motocycles: MotorcycleModel[];
 
   dataForm = new FormGroup({
-    motocycle: new FormControl('', this.validatorMotocycle),
+    motocycle: new FormControl('', Validators.required),
     heightRider: new FormControl('', this.validatorHeightRider),
   });
-
-  validatorMotocycle(control: AbstractControl) {
-    if (!(control.value)) {
-      return {
-        isError: true,
-      };
-    }
-    return null;
-  }
 
   validatorHeightRider(control: AbstractControl) {
     if (!(control.value)) {
