@@ -16,21 +16,14 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 export class CalculatorComponent {
   constructor() {
     this.motocycles = MOCK.models;
-    this.canvasLeg = new p5(this.sketchLeg, 'canvas-human');
-    this.canvasLeg.setup = () => {
-      this.canvasLeg.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
-      this.canvasLeg.noLoop();
-    };
-    this.canvasTors = new p5(this.sketchTorsAndArm, 'canvas-human');
-    this.canvasTors.setup = () => {
-      this.canvasTors.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
-      this.canvasTors.noLoop();
+    this.canvas = new p5(this.sketch, 'canvas-human');
+    this.canvas.setup = () => {
+      this.canvas.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
+      this.canvas.noLoop();
     };
   }
 
-  canvasLeg;
-
-  canvasTors;
+  canvas: p5;
 
   riderValues = {
     height: null,
@@ -87,38 +80,7 @@ export class CalculatorComponent {
     return null;
   }
 
-  sketchLeg = (p: p5) => {
-    const pict = p;
-    const draftValues = {
-      coordinateWaist: null,
-      coordinateKnee: null,
-      coordinateFootOnGround: null,
-      footPixel: null,
-      isShouldDraw: false,
-    };
-    pict.passValue = (value) => {
-      draftValues.isShouldDraw = false;
-      draftValues.isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null)));
-      Object.assign(draftValues, value);
-    };
-    pict.draw = () => {
-      if (draftValues.isShouldDraw) {
-        pict.stroke(20, 233, 36);
-        pict.strokeWeight(3);
-        pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
-          draftValues.coordinateKnee.x, draftValues.coordinateKnee.y);
-        pict.line(draftValues.coordinateKnee.x, draftValues.coordinateKnee.y,
-          draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y);
-        pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
-          draftValues.coordinateFootOnGround.x + draftValues.footPixel,
-          draftValues.coordinateFootOnGround.y);
-      } else {
-        console.log('sketchLeg: check your data');
-      }
-    };
-  }
-
-  sketchTorsAndArm = (p: p5) => {
+  sketch = (p: p5) => {
     const pict = p;
     const draftValues = {
       coordinateWaist: {
@@ -133,34 +95,41 @@ export class CalculatorComponent {
         x: null,
         y: null,
       },
+      coordinateKnee: {
+        x: null,
+        y: null,
+      },
+      coordinateFootOnGround: {
+        x: null,
+        y: null,
+      },
+      footPixel: null,
+      isShouldDraw: false,
     };
-    let isShouldDraw = false;
     pict.passValue = (value) => {
-      isShouldDraw = false;
+      draftValues.isShouldDraw = false;
+      draftValues.isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null))); //
       Object.assign(draftValues, value);
-      isShouldDraw = !Object.values(draftValues).some((v) => {
-        if (v === null) {
-          return true;
-        }
-        if (isNaN(v.x)) {
-          return true;
-        }
-        if (isNaN(v.y)) {
-          return true;
-        }
-        return false;
-      });
     };
     pict.draw = () => {
-      if (isShouldDraw) {
-        pict.stroke(248, 93, 10);
+      if (draftValues.isShouldDraw) {
+        pict.stroke(20, 233, 36);
         pict.strokeWeight(3);
+        pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
+          draftValues.coordinateKnee.x, draftValues.coordinateKnee.y);
+        pict.line(draftValues.coordinateKnee.x, draftValues.coordinateKnee.y,
+          draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y);
+        pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
+          draftValues.coordinateFootOnGround.x + draftValues.footPixel,
+          draftValues.coordinateFootOnGround.y);
+
+        pict.stroke(248, 93, 10);
         pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
         pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
       } else {
-        console.log('sketchTorsAndArm: check your data');
+        console.log('sketch: check your data');
       }
     };
   }
@@ -255,8 +224,7 @@ export class CalculatorComponent {
 
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
-    this.canvasLeg.clear();
-    this.canvasTors.clear();
+    this.canvas.clear();
   }
 
   isHideCanvas() {
@@ -391,35 +359,27 @@ export class CalculatorComponent {
 
   showRider() {
     this.calculateRiderValues();
-    this.showLeg();
-    this.showArmAndTors();
+    this.drawRider();
   }
 
-  showLeg() {
+  drawRider() {
     const {
+      coordinatePalmCenter,
+      coordinateShoulder,
       coordinateWaist,
       coordinateKnee,
       coordinateFootOnGround,
       footPixel,
     } = this.riderValues;
-    this.canvasLeg.passValue({
+    this.canvas.passValue({
+      coordinatePalmCenter,
+      coordinateShoulder,
       coordinateWaist,
       coordinateKnee,
       coordinateFootOnGround,
       footPixel,
     });
-    this.canvasLeg.clear();
-    this.canvasLeg.redraw();
-  }
-
-  showArmAndTors() {
-    const {
-      coordinateWaist, coordinatePalmCenter, coordinateShoulder,
-    } = this.riderValues;
-    this.canvasTors.passValue({
-      coordinateWaist, coordinatePalmCenter, coordinateShoulder,
-    });
-    this.canvasTors.clear();
-    this.canvasTors.redraw();
+    this.canvas.clear();
+    this.canvas.redraw();
   }
 }
