@@ -30,7 +30,6 @@ export class CalculatorComponent {
 
   canvas: p5;
 
-
   isShowMessage: boolean;
 
   riderValues: RiderModel;
@@ -40,6 +39,7 @@ export class CalculatorComponent {
   dataForm = new FormGroup({
     motocycle: new FormControl('', Validators.required),
     heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
+    isShowFootOnGround: new FormControl(false),
   });
 
   initializationRider() {
@@ -259,6 +259,10 @@ export class CalculatorComponent {
     console.log(this.dataForm.controls.motocycle.value);
     this.canvas.clear();
     this.isShowMessage = false;
+  }
+
+  onChangeCheckboxFoot() {
+    console.log(this.dataForm.controls.isShowFootOnGround.value);
   }
 
   isHideCanvas() {
