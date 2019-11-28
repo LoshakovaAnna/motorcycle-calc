@@ -25,9 +25,13 @@ export class CalculatorComponent {
       this.canvas.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT).position(0, 0);
       this.canvas.noLoop();
     };
+    this.isShowMessage = false;
   }
 
   canvas: p5;
+
+
+  isShowMessage: boolean;
 
   riderValues: RiderModel;
 
@@ -84,7 +88,7 @@ export class CalculatorComponent {
   }
 
   validatorHeightRider(control: AbstractControl) {
-    if ((Number(control.value) < 100) || (Number(control.value) > 250)) {
+    if ((Number(control.value) < 140) || (Number(control.value) > 220)) {
       return {
         isError: true,
       };
@@ -195,6 +199,10 @@ export class CalculatorComponent {
     );
   }
 
+  getHeightSaddlePixel() {
+    return (this.getScale() * this.getHeightSaddle()) / 10;
+  }
+
   getCoordinatesCenterSaddle() {
     return (
       (
@@ -250,14 +258,18 @@ export class CalculatorComponent {
   onChangeSelectMoto() {
     console.log(this.dataForm.controls.motocycle.value);
     this.canvas.clear();
+    this.isShowMessage = false;
   }
 
   isHideCanvas() {
     return !this.getImgUrl();
   }
 
-  calculateRiderValues(rider: RiderModel, scale, heightRider, heightSaddle: number) {
-    const heightSaddlePixel = (scale * heightSaddle) / 10; // cm
+  isFootOnGround() {
+    return (this.getHeightSaddlePixel() <= this.riderValues.legPixel);
+  }
+
+  calculateRiderValues(rider: RiderModel, scale, heightRider, heightSaddlePixel: number) {
     let newRiderValues = this.initializationRider();
     Object.assign(newRiderValues, rider);
     newRiderValues = this.calculateLengthsRiderBodyParts(newRiderValues, scale, heightRider);
@@ -428,11 +440,12 @@ export class CalculatorComponent {
   showRider() {
     const scale = this.getScale();
     const heightRider = this.getHeightRider();
-    const heightSaddle = this.getHeightSaddle();
+    const heightSaddlePixel = this.getHeightSaddlePixel();
     this.riderValues = this.calculateRiderValues(
-      this.riderValues, scale, heightRider, heightSaddle,
+      this.riderValues, scale, heightRider, heightSaddlePixel,
     );
     this.drawRider(this.riderValues, this.canvas);
+    this.isShowMessage = true;
   }
 
   drawRider(rider: RiderModel, canvas: p5) {

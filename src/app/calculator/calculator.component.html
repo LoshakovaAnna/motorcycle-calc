@@ -20,8 +20,12 @@
         </p>
       </div>
     </div>
+    <div *ngIf="this.isShowMessage" >
+      <p *ngIf="this.isFootOnGround()" class="green  tc ttu b tracked-mega f2 ">Feet on the ground</p>
+      <p *ngIf="!this.isFootOnGround()" class="red  tc ttu b tracked-mega f2 bg-light-gray">Feet not on the ground</p>
+    </div>
     <div class="flex  items-center">
-      <div class="pt4 pb4 w-50">
+      <div class="pt2 pb2 w-50">
         <label class="f3 lh-title b-ns" for="height-rider">Rider height</label>
         <input formControlName="heightRider" id="height-rider" class="f3 ma4" type="number" (change)="onChangeInputHeightRider()">
       </div>
