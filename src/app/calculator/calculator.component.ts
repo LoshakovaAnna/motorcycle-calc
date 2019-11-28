@@ -71,6 +71,14 @@ export class CalculatorComponent {
         x: null,
         y: null,
       },
+      coordinateNeck: {
+        x: null,
+        y: null,
+      },
+      coordinateCenterHead: {
+        x: null,
+        y: null,
+      },
     };
     return newRiderValues;
   }
@@ -99,6 +107,14 @@ export class CalculatorComponent {
         x: null,
         y: null,
       },
+      coordinateNeck: {
+        x: null,
+        y: null,
+      },
+      coordinateCenterHead: {
+        x: null,
+        y: null,
+      },
       coordinateKnee: {
         x: null,
         y: null,
@@ -108,6 +124,7 @@ export class CalculatorComponent {
         y: null,
       },
       footPixel: null,
+      headPixel: null,
       isShouldDraw: false,
     };
     pict.passValue = (value) => {
@@ -127,11 +144,15 @@ export class CalculatorComponent {
           draftValues.coordinateFootOnGround.x + draftValues.footPixel,
           draftValues.coordinateFootOnGround.y);
 
-        pict.stroke(248, 93, 10);
         pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
         pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
+
+        pict.line(draftValues.coordinateNeck.x, draftValues.coordinateNeck.y,
+          draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
+        pict.ellipse(draftValues.coordinateCenterHead.x, draftValues.coordinateCenterHead.y,
+          draftValues.headPixel, draftValues.headPixel);
       } else {
         console.log('sketch: check your data');
       }
@@ -279,7 +300,39 @@ export class CalculatorComponent {
       newRiderValues.coordinateWaist, newRiderValues.coordinatePalmCenter,
       newRiderValues.torsPixel, newRiderValues.armPixel,
     );
+    newRiderValues.coordinateNeck = this.calculateCoordinateNeck(
+      newRiderValues.coordinateShoulder, newRiderValues.neckPixel,
+    );
+    newRiderValues.coordinateCenterHead = this.calculateCoordinateCenterHead(
+      newRiderValues.coordinateNeck, newRiderValues.headPixel,
+    );
     return newRiderValues;
+  }
+
+  calculateCoordinateNeck(coordinateShoulder: CoordinateModel, neckPixel: number) {
+    if (coordinateShoulder === null) {
+      return null;
+    }
+    const coordinateNeck = {
+      x: null,
+      y: null,
+    };
+    coordinateNeck.x = coordinateShoulder.x;
+    coordinateNeck.y = coordinateShoulder.y - neckPixel;
+    return coordinateNeck;
+  }
+
+  calculateCoordinateCenterHead(coordinateNeck: CoordinateModel, headPixel: number) {
+    if (coordinateNeck === null) {
+      return null;
+    }
+    const coordinateCenterHead = {
+      x: null,
+      y: null,
+    };
+    coordinateCenterHead.x = coordinateNeck.x;
+    coordinateCenterHead.y = coordinateNeck.y - headPixel / 2;
+    return coordinateCenterHead;
   }
 
   calculateCoordinateKnee(coordinateWaist: CoordinateModel, heightSaddlePixel, legPixel,
@@ -389,6 +442,9 @@ export class CalculatorComponent {
       coordinateWaist,
       coordinateKnee,
       coordinateFootOnGround,
+      coordinateNeck,
+      coordinateCenterHead,
+      headPixel,
       footPixel,
     } = rider;
     canvas.passValue({
@@ -397,6 +453,9 @@ export class CalculatorComponent {
       coordinateWaist,
       coordinateKnee,
       coordinateFootOnGround,
+      coordinateNeck,
+      coordinateCenterHead,
+      headPixel,
       footPixel,
     });
     canvas.clear();
