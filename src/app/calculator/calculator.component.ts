@@ -39,7 +39,7 @@ export class CalculatorComponent {
   dataForm = new FormGroup({
     motocycle: new FormControl('', Validators.required),
     heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
-    isShowFootOnGround: new FormControl(false),
+    isPositionFootOnGround: new FormControl(false),
   });
 
   initializationRider() {
@@ -141,6 +141,7 @@ export class CalculatorComponent {
       },
       footPixel: null,
       headPixel: null,
+      isFootPositionOnGround: null,
       isShouldDraw: false,
     };
     pict.passValue = (value) => {
@@ -151,15 +152,29 @@ export class CalculatorComponent {
     pict.draw = () => {
       if (draftValues.isShouldDraw) {
         pict.stroke(20, 233, 36);
-        pict.strokeWeight(3);
-        pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
-          draftValues.coordinateKnee.x, draftValues.coordinateKnee.y);
-        pict.line(draftValues.coordinateKnee.x, draftValues.coordinateKnee.y,
-          draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y);
-        pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
-          draftValues.coordinateFootOnGround.x + draftValues.footPixel,
-          draftValues.coordinateFootOnGround.y);
-
+        pict.strokeWeight(4);
+        if (draftValues.isFootPositionOnGround) {
+          pict.line(
+            draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
+            draftValues.coordinateKneePositionGround.x, draftValues.coordinateKneePositionGround.y,
+          );
+          pict.line(
+            draftValues.coordinateKneePositionGround.x, draftValues.coordinateKneePositionGround.y,
+            draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
+          );
+        } else {
+          pict.line(
+            draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
+            draftValues.coordinateKneePositionPedal.x, draftValues.coordinateKneePositionPedal.y,
+          );
+          pict.line(
+            draftValues.coordinateKneePositionPedal.x, draftValues.coordinateKneePositionPedal.y,
+            draftValues.coordinatePedal.x, draftValues.coordinatePedal.y,
+          );
+        }
+        /*   pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
+            draftValues.coordinateFootOnGround.x + draftValues.footPixel,
+            draftValues.coordinateFootOnGround.y); */
         pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
         pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
@@ -241,6 +256,29 @@ export class CalculatorComponent {
     );
   }
 
+  getCoordinatePedal() {
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.coordinatePedal
+      )
+      || null
+    );
+  }
+
+  getCoordinateHandlebar() {
+    return (
+      (
+        this.dataForm
+        && this.dataForm.value
+        && this.dataForm.value.motocycle
+        && this.dataForm.value.motocycle.coordinateHandlebar
+      )
+      || null);
+  }
+
   getHeightRider() {
     return (
       (this.dataForm && this.dataForm.value && this.dataForm.value.heightRider)
@@ -248,15 +286,8 @@ export class CalculatorComponent {
     );
   }
 
-  getCoordinatesHandlebar() {
-    return (
-      (
-        this.dataForm
-        && this.dataForm.value
-        && this.dataForm.value.motocycle
-        && this.dataForm.value.motocycle.coordinatesHandlebar
-      )
-      || null);
+  getIsPositionFootOnGround() {
+    return ((this.dataForm && this.dataForm.value && this.dataForm.value.isPositionFootOnGround));
   }
 
   onChangeInputHeightRider() {
@@ -274,7 +305,7 @@ export class CalculatorComponent {
   }
 
   onChangeCheckboxFoot() {
-    console.log(this.dataForm.controls.isShowFootOnGround.value);
+    console.log(this.dataForm.controls.isPositionFootOnGround.value);
   }
 
   isHideCanvas() {
@@ -285,11 +316,14 @@ export class CalculatorComponent {
     return (this.getHeightSaddlePixel() <= this.riderValues.legPixel);
   }
 
-  calculateRiderValues(rider: RiderModel, scale, heightRider, heightSaddlePixel: number) {
+  calculateRiderValues(rider: RiderModel, coordinatePedal: CoordinateModel,
+    scale, heightRider, heightSaddlePixel: number) {
     let newRiderValues = this.initializationRider();
     Object.assign(newRiderValues, rider);
     newRiderValues = this.calculateLengthsRiderBodyParts(newRiderValues, scale, heightRider);
-    newRiderValues = this.calculateCoordinatesRiderBodyParts(newRiderValues, heightSaddlePixel);
+    newRiderValues = this.calculateCoordinatesRiderBodyParts(
+      newRiderValues, coordinatePedal, heightSaddlePixel,
+    );
     return newRiderValues;
   }
 
@@ -312,7 +346,8 @@ export class CalculatorComponent {
     return newRiderValues;
   }
 
-  calculateCoordinatesRiderBodyParts(riderValues: RiderModel, heightSaddlePixel: number) {
+  calculateCoordinatesRiderBodyParts(riderValues: RiderModel, coordinatePedal: CoordinateModel,
+    heightSaddlePixel: number) {
     const newRiderValues = this.initializationRider();
     Object.assign(newRiderValues, riderValues);
     newRiderValues.coordinateWaist = this.getCoordinateCenterSaddle();
@@ -470,14 +505,17 @@ export class CalculatorComponent {
     const scale = this.getScale();
     const heightRider = this.getHeightRider();
     const heightSaddlePixel = this.getHeightSaddlePixel();
+    const coordinatePedal = this.getCoordinatePedal();
+    const isFootPositionOnGround = this.getIsPositionFootOnGround();
+
     this.riderValues = this.calculateRiderValues(
-      this.riderValues, scale, heightRider, heightSaddlePixel,
+      this.riderValues, coordinatePedal, scale, heightRider, heightSaddlePixel,
     );
-    this.drawRider(this.riderValues, this.canvas);
+    this.drawRider(this.riderValues, this.canvas, isFootPositionOnGround);
     this.isShowMessage = true;
   }
 
-  drawRider(rider: RiderModel, canvas: p5) {
+  drawRider(rider: RiderModel, canvas: p5, isFootPositionOnGround: boolean) {
     const {
       coordinatePalmCenter,
       coordinateShoulder,
@@ -503,6 +541,7 @@ export class CalculatorComponent {
       coordinateCenterHead,
       headPixel,
       footPixel,
+      isFootPositionOnGround,
     });
     canvas.clear();
     canvas.redraw();

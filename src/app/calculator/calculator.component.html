@@ -30,9 +30,9 @@
         <input formControlName="heightRider" id="height-rider" class="f3 ma4" type="number" (change)="onChangeInputHeightRider()">
       </div>
       <div class="w-25 f2 ">
-        <input type="checkbox" id="isShowFootOnGround" name="isShowFootOnGround" value="true" class="form-control boolean optional f1"
-               formControlName="isShowFootOnGround" (change)="onChangeCheckboxFoot()">
-        <label for="isShowFootOnGround" class="f3 ma3">Foot on the ground?</label>
+        <input type="checkbox" id="isPositionFootOnGround" name="isPositionFootOnGround" value="true" class="form-control boolean optional f1"
+               formControlName="isPositionFootOnGround" (change)="onChangeCheckboxFoot()">
+        <label for="isPositionFootOnGround" class="f3 ma3">Foot on the ground?</label>
       </div>
       <button (click)="this.showRider()" class="f2 bg-green white b--green br2 pa2 btn-show"
               [attr.disabled]="dataForm.status!=='VALID' ? 'disabled': null">Show Rider</button>
