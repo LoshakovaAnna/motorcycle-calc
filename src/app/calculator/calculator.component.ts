@@ -158,6 +158,7 @@ export class CalculatorComponent {
             draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
             draftValues.coordinateKneePositionGround.x, draftValues.coordinateKneePositionGround.y,
           );
+          pict.stroke(244, 33, 130);
           pict.line(
             draftValues.coordinateKneePositionGround.x, draftValues.coordinateKneePositionGround.y,
             draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
@@ -167,6 +168,7 @@ export class CalculatorComponent {
             draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
             draftValues.coordinateKneePositionPedal.x, draftValues.coordinateKneePositionPedal.y,
           );
+          pict.stroke(244, 33, 130);
           pict.line(
             draftValues.coordinateKneePositionPedal.x, draftValues.coordinateKneePositionPedal.y,
             draftValues.coordinatePedal.x, draftValues.coordinatePedal.y,
@@ -175,11 +177,13 @@ export class CalculatorComponent {
         /*   pict.line(draftValues.coordinateFootOnGround.x, draftValues.coordinateFootOnGround.y,
             draftValues.coordinateFootOnGround.x + draftValues.footPixel,
             draftValues.coordinateFootOnGround.y); */
+        pict.stroke(231, 26, 26);
         pict.line(draftValues.coordinateWaist.x, draftValues.coordinateWaist.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
+        pict.stroke(223, 216, 13);
         pict.line(draftValues.coordinatePalmCenter.x, draftValues.coordinatePalmCenter.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
-
+        pict.stroke(15, 15, 15);
         pict.line(draftValues.coordinateNeck.x, draftValues.coordinateNeck.y,
           draftValues.coordinateShoulder.x, draftValues.coordinateShoulder.y);
         pict.ellipse(draftValues.coordinateCenterHead.x, draftValues.coordinateCenterHead.y,
