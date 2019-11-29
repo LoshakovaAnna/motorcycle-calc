@@ -59,7 +59,11 @@ export class CalculatorComponent {
         x: null,
         y: null,
       },
-      coordinateKnee: {
+      coordinateKneePositionGround: {
+        x: null,
+        y: null,
+      },
+      coordinateKneePositionPedal: {
         x: null,
         y: null,
       },
@@ -119,7 +123,15 @@ export class CalculatorComponent {
         x: null,
         y: null,
       },
-      coordinateKnee: {
+      coordinateKneePositionGround: {
+        x: null,
+        y: null,
+      },
+      coordinateKneePositionPedal: {
+        x: null,
+        y: null,
+      },
+      coordinatePedal: {
         x: null,
         y: null,
       },
@@ -303,10 +315,13 @@ export class CalculatorComponent {
   calculateCoordinatesRiderBodyParts(riderValues: RiderModel, heightSaddlePixel: number) {
     const newRiderValues = this.initializationRider();
     Object.assign(newRiderValues, riderValues);
-    newRiderValues.coordinateWaist = this.getCoordinatesCenterSaddle();
-    newRiderValues.coordinateKnee = this.calculateCoordinateKnee(
+    newRiderValues.coordinateWaist = this.getCoordinateCenterSaddle();
+    newRiderValues.coordinateKneePositionGround = this.calculateCoordinateKneePositionCround(
       newRiderValues.coordinateWaist, heightSaddlePixel, newRiderValues.legPixel,
       newRiderValues.waistToKneePixel,
+    );
+    newRiderValues.coordinateKneePositionPedal = this.calculateCoordinateKneePositionOnPedal(
+      newRiderValues.coordinateWaist, coordinatePedal, newRiderValues.waistToKneePixel,
     );
     newRiderValues.coordinateFootOnGround = this.calculateCoordinateFootOnGround(
       heightSaddlePixel, newRiderValues.legPixel,
@@ -351,7 +366,7 @@ export class CalculatorComponent {
     return coordinateCenterHead;
   }
 
-  calculateCoordinateKnee(coordinateWaist: CoordinateModel, heightSaddlePixel, legPixel,
+  calculateCoordinateKneePositionCround(coordinateWaist: CoordinateModel, heightSaddlePixel, legPixel,
     waistToKneePixel: number) {
     if (coordinateWaist === null) {
       return null;
@@ -371,6 +386,16 @@ export class CalculatorComponent {
     }
     coordinateKnee.y = (heightSaddlePixel / 2) + coordinateWaist.y;
     return coordinateKnee;
+  }
+
+  calculateCoordinateKneePositionOnPedal(coordinateWaist, coordinatePedal: CoordinateModel,
+    waistToKneePixel: number) {
+    if ((coordinateWaist === null) || (coordinatePedal === null)) {
+      return null;
+    }
+    return this.calculateCoordinateThirdCornerOfTriangle(
+      coordinateWaist, coordinatePedal, waistToKneePixel, waistToKneePixel,
+    );
   }
 
   calculateCoordinateFootOnGround(heightSaddlePixel, legPixel: number) {
@@ -457,18 +482,22 @@ export class CalculatorComponent {
       coordinatePalmCenter,
       coordinateShoulder,
       coordinateWaist,
-      coordinateKnee,
+      coordinateKneePositionPedal,
+      coordinateKneePositionGround,
       coordinateFootOnGround,
       coordinateNeck,
       coordinateCenterHead,
       headPixel,
       footPixel,
     } = rider;
+    const coordinatePedal = this.getCoordinatePedal();
     canvas.passValue({
       coordinatePalmCenter,
       coordinateShoulder,
       coordinateWaist,
-      coordinateKnee,
+      coordinatePedal,
+      coordinateKneePositionPedal,
+      coordinateKneePositionGround,
       coordinateFootOnGround,
       coordinateNeck,
       coordinateCenterHead,

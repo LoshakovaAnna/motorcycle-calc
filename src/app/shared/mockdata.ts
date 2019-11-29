@@ -13,6 +13,10 @@ export const MOCK = {
         x: 532,
         y: 233,
       },
+      coordinatePedal: {
+        x: 320,
+        y: 468,
+      },
     },
     {
       name: 'Honda CBR 1100 XX (CBR1100XX Blackbird)',
@@ -27,6 +31,10 @@ export const MOCK = {
         x: 528,
         y: 270,
       },
+      coordinatePedal: {
+        x: 287,
+        y: 488,
+      },
     },
     {
       name: 'Kawasaki Z1000 2003-2006',
@@ -40,6 +48,10 @@ export const MOCK = {
       coordinatesHandlebar: {
         x: 560,
         y: 240,
+      },
+      coordinatePedal: {
+        x: 333,
+        y: 490,
       },
     },
   ],
