@@ -312,7 +312,7 @@ export class CalculatorComponent {
     return !this.getImgUrl();
   }
 
-  isFootOnGround() {
+  isFootReachTheGround() {
     return (this.getHeightSaddlePixel() <= this.riderValues.legPixel);
   }
 

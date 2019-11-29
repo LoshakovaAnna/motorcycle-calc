@@ -21,8 +21,8 @@
       </div>
     </div>
     <div *ngIf="this.isShowMessage" >
-      <p *ngIf="this.isFootOnGround()" class="green  tc ttu b tracked-mega f2 ">Feet on the ground</p>
-      <p *ngIf="!this.isFootOnGround()" class="red  tc ttu b tracked-mega f2 bg-light-gray">Feet not on the ground</p>
+      <p *ngIf="this.isFootReachTheGround()" class="green  tc ttu b tracked-mega f2 ">Feet on the ground</p>
+      <p *ngIf="!this.isFootReachTheGround()" class="red  tc ttu b tracked-mega f2 bg-light-gray">Feet not on the ground</p>
     </div>
     <div class="flex  items-center">
       <div class="pt2 pb2 w-50">
