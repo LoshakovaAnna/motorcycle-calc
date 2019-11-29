@@ -146,7 +146,7 @@ export class CalculatorComponent {
     };
     pict.passValue = (value) => {
       draftValues.isShouldDraw = false;
-      draftValues.isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null))); //
+      draftValues.isShouldDraw = !Object.values(value).some((v) => ((v === 0) || (v === null)));
       Object.assign(draftValues, value);
     };
     pict.draw = () => {
@@ -230,28 +230,28 @@ export class CalculatorComponent {
     return (this.getScale() * this.getHeightSaddle()) / 10;
   }
 
-  getCoordinatesCenterSaddle() {
+  getCoordinateCenterSaddle() {
     return (
       (
         this.dataForm
         && this.dataForm.value
         && this.dataForm.value.motocycle
-        && this.dataForm.value.motocycle.coordinatesCenterSaddle
+        && this.dataForm.value.motocycle.coordinateCenterSaddle
       )
       || null
     );
   }
 
-  getCoordinatesCenterSaddleX() {
+  getCoordinateCenterSaddleX() {
     return (
-      (this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.x)
+      (this.getCoordinateCenterSaddle() && this.dataForm.value.motocycle.coordinateCenterSaddle.x)
       || null
     );
   }
 
-  getCoordinatesCenterSaddleY() {
+  getCoordinateCenterSaddleY() {
     return (
-      (this.getCoordinatesCenterSaddle() && this.dataForm.value.motocycle.coordinatesCenterSaddle.y)
+      (this.getCoordinateCenterSaddle() && this.dataForm.value.motocycle.coordinateCenterSaddle.y)
       || null
     );
   }
@@ -361,7 +361,7 @@ export class CalculatorComponent {
     newRiderValues.coordinateFootOnGround = this.calculateCoordinateFootOnGround(
       heightSaddlePixel, newRiderValues.legPixel,
     );
-    newRiderValues.coordinatePalmCenter = this.getCoordinatesHandlebar();
+    newRiderValues.coordinatePalmCenter = this.getCoordinateHandlebar();
     newRiderValues.coordinateShoulder = this.calculateCoordinateThirdCornerOfTriangle(
       newRiderValues.coordinateWaist, newRiderValues.coordinatePalmCenter,
       newRiderValues.torsPixel, newRiderValues.armPixel,
@@ -436,13 +436,13 @@ export class CalculatorComponent {
   calculateCoordinateFootOnGround(heightSaddlePixel, legPixel: number) {
     if (legPixel > heightSaddlePixel) {
       return {
-        x: this.getCoordinatesCenterSaddleX(),
-        y: this.getCoordinatesCenterSaddleY() + heightSaddlePixel,
+        x: this.getCoordinateCenterSaddleX(),
+        y: this.getCoordinateCenterSaddleY() + heightSaddlePixel,
       };
     }
     return {
-      x: this.getCoordinatesCenterSaddleX(),
-      y: this.getCoordinatesCenterSaddleY() + legPixel,
+      x: this.getCoordinateCenterSaddleX(),
+      y: this.getCoordinateCenterSaddleY() + legPixel,
     };
   }
 
