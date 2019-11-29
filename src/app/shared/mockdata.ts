@@ -7,15 +7,15 @@ export const MOCK = {
       scale: 3.37,
       coordinateCenterSaddle: {
         x: 330,
-        y: 305,
+        y: 405,
       },
       coordinateHandlebar: {
         x: 532,
-        y: 233,
+        y: 333,
       },
       coordinatePedal: {
         x: 320,
-        y: 468,
+        y: 568,
       },
     },
     {
@@ -25,15 +25,15 @@ export const MOCK = {
       scale: 3.54,
       coordinateCenterSaddle: {
         x: 290,
-        y: 315,
+        y: 415,
       },
       coordinateHandlebar: {
         x: 528,
-        y: 270,
+        y: 370,
       },
       coordinatePedal: {
         x: 287,
-        y: 488,
+        y: 588,
       },
     },
     {
@@ -43,15 +43,15 @@ export const MOCK = {
       scale: 4,
       coordinateCenterSaddle: {
         x: 370,
-        y: 314,
+        y: 414,
       },
       coordinateHandlebar: {
         x: 560,
-        y: 240,
+        y: 340,
       },
       coordinatePedal: {
         x: 333,
-        y: 490,
+        y: 590,
       },
     },
   ],
