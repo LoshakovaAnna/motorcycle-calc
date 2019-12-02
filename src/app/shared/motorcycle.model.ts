@@ -1,10 +1,11 @@
+import { CoordinateModel } from './coordinate.model';
+
 export interface MotorcycleModel {
   name: string;
   urlImg: string;
   heightSaddle: number;
   scale: number;
-  coordinatesCenterSaddle: {
-    x: number,
-    y: number
-  };
+  coordinateCenterSaddle: CoordinateModel;
+  coordinateHandlebar: CoordinateModel;
+  coordinatePedal: CoordinateModel;
 }
