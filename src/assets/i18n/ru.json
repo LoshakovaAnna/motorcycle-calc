@@ -1,22 +1,22 @@
 {
+	"color-descriptions": {
+		"arm": "Рука",
+		"back": "Спина",
+		"head-neck": "Голова и шея",
+		"leg-down": "Нога: от коленки до ступни",
+		"leg-up": "Нога: от пояса до коленки"
+	},
+	"is-foot-reach-ground": {
+		"no": "Ноги не достают до земли",
+		"yes": "Ноги достают до земли"
+	},
+	"moto-info": {
+		"coordinatesCenterSaddle": "Координаты центра седла:  x = {{x}}, y = {{y}}",
+		"height-saddle": "Высота седла: {{heightSaddle}} мм",
+		"scale": "Масштаб: {{scale}} (пкс/см)"
+	},
 	"moto-label": "Модель мотоцикла",
-  "moto-info": {
-    "height-saddle": "Высота седла: {{heightSaddle}} мм",
-    "scale": "Масштаб: {{scale}} (пкс/см)",
-    "coordinatesCenterSaddle" : "Координаты центра седла:  x = {{x}}, y = {{y}}"
-  },
-  "is-foot-reach-ground": {
-    "yes": "Ноги достают до земли",
-    "no": "Ноги не достают до земли"
-  },
-  "color-descriptions": {
-    "head-neck": "Голова и шея",
-    "back": "Спина",
-    "arm": "Рука",
-    "leg-up": "Нога: от пояса до коленки",
-    "leg-down": "Нога: от коленки до ступни"
-  },
-  "rider-height": "Высота водителя",
-  "show-foot-on-ground": "Показывать ноги на земле?",
-  "show-rider": "Показать водителя"
+	"rider-height": "Высота водителя",
+	"show-foot-on-ground": "Показывать ноги на земле?",
+	"show-rider": "Показать водителя"
 }
