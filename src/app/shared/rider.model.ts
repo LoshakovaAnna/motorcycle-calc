@@ -17,6 +17,7 @@ export interface RiderModel {
   coordinateNeck: CoordinateModel;
   coordinateCenterHead: CoordinateModel;
   coordinateWaist: CoordinateModel;
-  coordinateKnee: CoordinateModel;
+  coordinateKneePositionGround: CoordinateModel;
+  coordinateKneePositionPedal: CoordinateModel;
   coordinateFootOnGround: CoordinateModel;
 }

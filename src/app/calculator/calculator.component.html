@@ -2,37 +2,65 @@
   <form [formGroup]="dataForm">
     <div>
       <label class="f2 b db ma2 mt4 green" for="motocycle-select">Motocycle model</label>
-      <select class="ba b--green-20 pa2 mb2 db w-100 f3" id="motocycle-select" formControlName="motocycle" (change) = "onChangeSelectMoto()" >
+      <select class="ba b--green-20 pa2 mb2 db w-100 f3" id="motocycle-select" formControlName="motocycle" (change)="onChangeSelectMoto()" >
         <option  *ngFor="let moto of motocycles" [ngValue]="moto">{{moto.name}}</option>
       </select>
-      <div class="relative  mt-5">
+      <div class="relative  mt-5 flex">
         <div class="absolute" [class.dn]="this.isHideCanvas()" id="canvas-human">
         </div>
         <img *ngIf="this.getImgUrl()" [src]="this.getImgUrl()" alt="moto image" class="img-moto" >
+        <div class="flex-column w-100">
+          <div class="ba f3 b--green br3 pl3 pr3">
+            <p *ngIf="this.getHeightSaddle()">Height saddle: {{this.getHeightSaddle()}} mm</p>
+            <p *ngIf="this.getScale()">Scale: {{this.getScale()}}  (px/cm)</p>
+            <p *ngIf="this.getCoordinateCenterSaddle()">
+              Coordinates Center Saddlee:
+              x = {{this.getCoordinateCenterSaddleX()}},
+              y = {{this.getCoordinateCenterSaddleY()}}
+            </p>
+          </div>
+          <div *ngIf="this.isShowMessage" class="flex-column">
+            <p *ngIf="this.isFootReachTheGround()" class="green  tc ttu b tracked-mega f2">Feet on the ground</p>
+            <p *ngIf="!this.isFootReachTheGround()" class="red  tc ttu b tracked-mega f2 bg-light-gray">Feet not on the ground</p>
+            <div class="br4 bg-light-gray pa3 lh-solid sans-serif">
+              <div class="flex items-center">
+                <div class="square color-head mr3"></div>
+                <p>Head and neck</p>
+              </div>
+              <div class="flex items-center">
+                <div class="square color-back mr3"></div>
+                <p>Back</p>
+              </div>
+              <div class="flex items-center">
+                <div class="square color-arm mr3"></div>
+                <p>Arm</p>
+              </div>
+              <div class="flex items-center">
+                <div class="square color-leg-top mr3"></div>
+                <p>Leg: from waist to knee</p>
+              </div>
+              <div class="flex items-center">
+                <div class="square color-leg-bottom mr3"></div>
+                <p>Leg: from knee to foot</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ba f3 b--green br3">
-        <p *ngIf="this.getHeightSaddle()" class="pl3" >Height saddle: {{this.getHeightSaddle()}} mm</p>
-        <p *ngIf="this.getScale()" class="pl3">Scale: {{this.getScale()}}  (px/cm)</p>
-        <p *ngIf="this.getCoordinatesCenterSaddle()" class="pl3">
-          Coordinates Center Saddlee:
-          x = {{this.getCoordinatesCenterSaddleX()}},
-          y = {{this.getCoordinatesCenterSaddleY()}}
-        </p>
-      </div>
-    </div>
-    <div *ngIf="this.isShowMessage" >
-      <p *ngIf="this.isFootOnGround()" class="green  tc ttu b tracked-mega f2 ">Feet on the ground</p>
-      <p *ngIf="!this.isFootOnGround()" class="red  tc ttu b tracked-mega f2 bg-light-gray">Feet not on the ground</p>
     </div>
     <div class="flex  items-center">
       <div class="pt2 pb2 w-50">
         <label class="f3 lh-title b-ns" for="height-rider">Rider height</label>
-        <input formControlName="heightRider" id="height-rider" class="f3 ma4" type="number" (change)="onChangeInputHeightRider()">
+        <input formControlName="heightRider" id="height-rider" type="number"
+               (change)="onChangeInputHeightRider()" class="f3 ma4">
       </div>
-      <div class="w-50">
-        <button (click)="this.showRider()" class="f2 bg-green white b--green br2 pa2 btn-show"
-                [attr.disabled]="dataForm.status!=='VALID' ? 'disabled': null">Show Rider</button>
+      <div class="w-25 f2">
+        <input type="checkbox" id="isPositionFootOnGround"  value="true" class="form-control boolean optional f1"
+               formControlName="isPositionFootOnGround" (change)="onChangeCheckboxFoot()">
+        <label for="isPositionFootOnGround" class="f3 ma3">Foot on the ground?</label>
       </div>
+      <button (click)="this.showRider()" class="f2 bg-green white b--green br2 pa2 btn-show"
+              [attr.disabled]="dataForm.status!=='VALID' ? 'disabled': null">Show Rider</button>
     </div>
   </form>
 </div>
