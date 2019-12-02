@@ -1,0 +1,22 @@
+{
+  "moto-label": "Motocycle model",
+  "moto-info": {
+    "height-saddle": "Height saddle: {{heightSaddle}} mm",
+    "scale": "Scale: {{scale}} (px/cm)",
+    "coordinatesCenterSaddle" : "Coordinates Center Saddlee: x = {{x}}, y = {{y}}"
+  },
+  "is-foot-reach-ground": {
+    "yes": "Feet on the ground",
+    "no": "Feet not on the ground"
+  },
+  "color-descriptions": {
+    "head-neck": "Head and neck",
+    "back": "Back",
+    "arm": "Arm",
+    "leg-up": "Leg: from waist to knee",
+    "leg-down": "Leg: from knee to foot"
+  },
+  "rider-height": "Rider height",
+  "show-foot-on-ground": "Show foot on the ground?",
+  "show-rider": "Show Rider"
+}
