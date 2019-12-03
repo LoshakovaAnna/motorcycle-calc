@@ -3,6 +3,7 @@ import {
   FormGroup, FormControl, Validators, AbstractControl,
 } from '@angular/forms';
 import * as p5 from 'p5';
+import {TranslateService} from '@ngx-translate/core';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
 import { CoordinateModel } from '../shared/coordinate.model';
@@ -17,7 +18,8 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '../shared/canvas.config';
 })
 
 export class CalculatorComponent {
-  constructor() {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('ru');
     this.motocycles = MOCK.models;
     this.riderValues = this.initializationRider();
     this.canvas = new p5(this.sketch, 'canvas-human');
@@ -41,6 +43,10 @@ export class CalculatorComponent {
     heightRider: new FormControl('', [Validators.required, this.validatorHeightRider]),
     isPositionFootOnGround: new FormControl(false),
   });
+
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
 
   initializationRider() {
     const newRiderValues = {
