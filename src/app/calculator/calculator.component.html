@@ -1,7 +1,7 @@
 <div class="center  w-70">
   <form [formGroup]="dataForm">
     <div>
-      <label class="f2 b db ma2 mt4 green" for="motocycle-select">{{'moto-label' | translate }}</label>
+      <label class="f2 b db ma2 mt4 green" for="motocycle-select" id="moto-label" translate>moto-label</label>
       <select class="ba b--green-20 pa2 mb2 db w-100 f3" id="motocycle-select" formControlName="motocycle" (change)="onChangeSelectMoto()" >
         <option  *ngFor="let moto of motocycles" [ngValue]="moto">{{moto.name}}</option>
       </select>

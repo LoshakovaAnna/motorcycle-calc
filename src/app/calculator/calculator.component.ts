@@ -3,7 +3,7 @@ import {
   FormGroup, FormControl, Validators, AbstractControl,
 } from '@angular/forms';
 import * as p5 from 'p5';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { MotorcycleModel } from '../shared/motorcycle.model';
 import { CoordinateModel } from '../shared/coordinate.model';
@@ -195,7 +195,7 @@ export class CalculatorComponent {
         pict.ellipse(draftValues.coordinateCenterHead.x, draftValues.coordinateCenterHead.y,
           draftValues.headPixel, draftValues.headPixel);
       } else {
-        console.log('sketch: check your data');
+        // console.log('sketch: check your data');
       }
     };
   }
