@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
+import {By} from "@angular/platform-browser";
 
 import { CalculatorComponent } from './calculator.component';
 import { HttpLoaderFactory } from '../app.module';
@@ -11,11 +12,29 @@ import { HttpLoaderFactory } from '../app.module';
 describe('CalculatorComponent', () => {
   const ENGLISH_TRANSLATIONS = require('../../assets/i18n/en.json');
   const RUSIAN_TRANSLATIONS = require('../../assets/i18n/ru.json');
-
+  const motoModel = {
+    name: 'Suzuki B-King (GSX 1300 BK)',
+    urlImg: 'https://bikeswiki.ru/images/a/a3/2008_B-KING_au1_800.jpg',
+    heightSaddle: 805,
+    scale: 3.37,
+    coordinateCenterSaddle: {
+      x: 330,
+      y: 405,
+    },
+    coordinateHandlebar: {
+      x: 532,
+      y: 333,
+    },
+    coordinatePedal: {
+      x: 320,
+      y: 568,
+    },
+  };
   let component: CalculatorComponent;
   let fixture: ComponentFixture<CalculatorComponent>;
   let translate: TranslateService;
   let debugElement: DebugElement;
+  let htmlElForm: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,6 +61,7 @@ describe('CalculatorComponent', () => {
     fixture = TestBed.createComponent(CalculatorComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+    htmlElForm = debugElement.query(By.css('form')).nativeElement;
     translate.setTranslation('ru', RUSIAN_TRANSLATIONS);
     translate.setTranslation('en', ENGLISH_TRANSLATIONS);
     fixture.detectChanges();
@@ -114,4 +134,28 @@ describe('CalculatorComponent', () => {
     expect(component.initializationRider()).toEqual(newRider);
     expect(component.initializationRider()).not.toBeNull();
   });
+
+  describe('test form', () => {
+    it('form should be invalid. empty inputs', () => {
+      component.dataForm.controls['motocycle'].setValue('');
+      component.dataForm.controls['heightRider'].setValue('');
+      component.dataForm.controls['isPositionFootOnGround'].setValue('');
+      expect(component.dataForm.valid).toBeFalsy();
+    });
+    it('form should be invalid. check heightRider >220', () => {
+      component.dataForm.controls['motocycle'].setValue(motoModel);
+      component.dataForm.controls['heightRider'].setValue(221);
+      expect(component.dataForm.valid).toBeFalsy();
+    });
+    it('form should be invalid. check heightRider <140', () => {
+      component.dataForm.controls['motocycle'].setValue(motoModel);
+      component.dataForm.controls['heightRider'].setValue(139);
+      expect(component.dataForm.valid).toBeFalsy();
+    });
+    it('form should be valid', () => {
+      component.dataForm.controls['motocycle'].setValue(motoModel);
+      component.dataForm.controls['heightRider'].setValue('200');
+      expect(component.dataForm.valid).toBeTruthy();
+    });
+  })
 });
