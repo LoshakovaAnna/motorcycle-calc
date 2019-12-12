@@ -64,4 +64,54 @@ describe('CalculatorComponent', () => {
     expect(debugElement.nativeElement.querySelector('#moto-label').innerHTML)
       .toEqual(ENGLISH_TRANSLATIONS['moto-label']);
   });
+
+  it('should create new object of rider with initial values', () => {
+    const newRider = {
+      height: null,
+      heightRiderPixel: null,
+      headPixel: null,
+      neckPixel: null,
+      torsPixel: null,
+      palmPixel: null,
+      armPixel: null,
+      legPixel: null,
+      waistToKneePixel: null,
+      kneeToFootPixel: null,
+      footPixel: null,
+      coordinateWaist: {
+        x: null,
+        y: null,
+      },
+      coordinateKneePositionGround: {
+        x: null,
+        y: null,
+      },
+      coordinateKneePositionPedal: {
+        x: null,
+        y: null,
+      },
+      coordinateFootOnGround: {
+        x: null,
+        y: null,
+      },
+      coordinatePalmCenter: {
+        x: null,
+        y: null,
+      },
+      coordinateShoulder: {
+        x: null,
+        y: null,
+      },
+      coordinateNeck: {
+        x: null,
+        y: null,
+      },
+      coordinateCenterHead: {
+        x: null,
+        y: null,
+      },
+    };
+    expect(component.initializationRider()).toEqual(newRider);
+    expect(component.initializationRider()).not.toBeNull();
+  });
 });
