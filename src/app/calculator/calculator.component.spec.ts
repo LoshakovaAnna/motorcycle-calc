@@ -174,4 +174,23 @@ describe('CalculatorComponent', () => {
     });
   });
 
+
+
+  describe('test calculation ', () => {
+    it('two point, toEqual(3)', () => {
+      const A = {x:1, y:1};
+      const B = {x:4, y:1};
+      expect(component.calculateLengthBetweenTwoPoints(A, B)).toEqual(3);
+    });
+    it('two point toEqual(19)', () => {
+      const A = {x:4, y:0};
+      const B = {x:-15, y:0};
+      expect(component.calculateLengthBetweenTwoPoints(A, B)).toEqual(19);
+    });
+    it('two point toBeNull()', () => {
+      const A = {x:-1, y:-1};
+      const B = null;
+      expect(component.calculateLengthBetweenTwoPoints(A, B)).toBeNull();
+    });
+  });
 });
