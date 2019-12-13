@@ -54,10 +54,11 @@ describe('CalculatorComponent', () => {
       declarations: [CalculatorComponent],
     })
       .compileComponents();
-    translate = TestBed.get(TranslateService);
+
   }));
 
   beforeEach(() => {
+    translate = TestBed.get(TranslateService);
     fixture = TestBed.createComponent(CalculatorComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
@@ -157,5 +158,20 @@ describe('CalculatorComponent', () => {
       component.dataForm.controls['heightRider'].setValue('200');
       expect(component.dataForm.valid).toBeTruthy();
     });
-  })
+    it('button should  be disabled in the beginning', () => {
+      const nativ = fixture.debugElement.nativeElement;
+      const b = nativ.querySelector('#btn-show-rider');
+      expect(b.disabled).toBeTruthy();
+    });
+    it('button should  be able  when form valid', () => {
+      component.dataForm.controls['motocycle'].setValue(motoModel);
+      component.dataForm.controls['heightRider'].setValue('200');
+      fixture.detectChanges();
+      const nativ = fixture.debugElement.nativeElement;
+      const b = nativ.querySelector('#btn-show-rider');
+      console.log(b.disabled)
+      expect(b.disabled).toBeFalsy();
+    });
+  });
+
 });
